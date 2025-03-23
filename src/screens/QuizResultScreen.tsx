@@ -146,7 +146,7 @@ const QuizResultScreen: React.FC = () => {
             ]}
           >
             <LinearGradient
-              colors={getResultGradient()}
+              colors={getResultGradient() as [string, string, ...string[]]}
               style={styles.resultIconContainer}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
@@ -156,7 +156,6 @@ const QuizResultScreen: React.FC = () => {
           </Animated.View>
 
           <Animated.View style={{ opacity: opacityAnim }}>
-            <Text style={[styles.scorePercentText, { color: getResultGradient()[0] }]}>{scorePercentage}%</Text>
             <Text style={[styles.resultMessage, { color: colors.text }]}>{getResultMessage()}</Text>
           </Animated.View>
 
