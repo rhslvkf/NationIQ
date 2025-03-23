@@ -9,14 +9,13 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import FlagQuizCard from "../components/FlagQuizCard";
 import DifficultySelector from "../components/DifficultySelector";
+import QuestionCountSelector, { QUESTION_COUNTS, QuestionCount } from "../components/QuestionCountSelector";
 import { generateFlagQuiz } from "../services/countryService";
 import i18n from "../i18n";
 import { useAppTheme } from "../hooks/useAppTheme";
 
 type FlagQuizScreenRouteProp = RouteProp<RootStackParamList, "FlagQuiz">;
 type FlagQuizScreenNavigationProp = StackNavigationProp<RootStackParamList, "FlagQuiz">;
-
-const QUESTIONS_COUNT = 10;
 
 const FlagQuizScreen: React.FC = () => {
   const route = useRoute<FlagQuizScreenRouteProp>();
@@ -28,6 +27,9 @@ const FlagQuizScreen: React.FC = () => {
 
   // 라우트 파라미터에서 초기 난이도 가져오기
   const [difficulty, setDifficulty] = useState<Difficulty>(route.params?.difficulty || Difficulty.EASY);
+
+  // 문제 개수 상태 추가
+  const [questionCount, setQuestionCount] = useState<QuestionCount>(QUESTION_COUNTS.MEDIUM);
 
   // 퀴즈 관련 상태
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -60,11 +62,16 @@ const FlagQuizScreen: React.FC = () => {
     setDifficulty(newDifficulty);
   };
 
+  // 문제 개수 선택 핸들러
+  const handleSelectQuestionCount = (count: QuestionCount) => {
+    setQuestionCount(count);
+  };
+
   // 퀴즈 시작 핸들러
   const handleStartQuiz = async () => {
     setIsLoading(true);
     try {
-      const quizQuestions = await generateFlagQuiz(difficulty, QUESTIONS_COUNT);
+      const quizQuestions = await generateFlagQuiz(difficulty, questionCount);
       setQuestions(quizQuestions);
       setCurrentQuestionIndex(0);
       setSelectedOption(null);
@@ -152,25 +159,18 @@ const FlagQuizScreen: React.FC = () => {
           {isLoading ? (
             <ActivityIndicator size="large" color={colors.primary} />
           ) : (
-            <>
-              <FlagQuizCard
-                flag={currentQuestion.flag}
-                options={currentQuestion.options}
-                onSelectOption={handleSelectOption}
-                selectedOption={selectedOption || undefined}
-                correctAnswer={selectedOption ? currentQuestion.correctAnswer : undefined}
-                isLoading={isLoading}
-                questionNumber={currentQuestionIndex + 1}
-                totalQuestions={questions.length}
-              />
-
-              {/* 현재 스코어 표시 */}
-              <View style={[styles.scoreContainer, { backgroundColor: colors.card }]}>
-                <Text style={[styles.scoreText, { color: colors.primary }]}>
-                  {i18n.t("yourScore")}: {score}/{currentQuestionIndex + (selectedOption ? 1 : 0)}
-                </Text>
-              </View>
-            </>
+            <FlagQuizCard
+              flag={currentQuestion.flag}
+              options={currentQuestion.options}
+              onSelectOption={handleSelectOption}
+              selectedOption={selectedOption || undefined}
+              correctAnswer={selectedOption ? currentQuestion.correctAnswer : undefined}
+              isLoading={isLoading}
+              questionNumber={currentQuestionIndex + 1}
+              totalQuestions={questions.length}
+              correctAnswers={correctAnswers}
+              wrongAnswers={wrongAnswers}
+            />
           )}
         </View>
       ) : (
@@ -178,6 +178,8 @@ const FlagQuizScreen: React.FC = () => {
           <Text style={[styles.setupTitle, { color: colors.text }]}>{i18n.t("flagQuizDesc")}</Text>
 
           <DifficultySelector onSelectDifficulty={handleSelectDifficulty} selectedDifficulty={difficulty} />
+
+          <QuestionCountSelector onSelectCount={handleSelectQuestionCount} selectedCount={questionCount} />
 
           <Button
             title={i18n.t("start")}
@@ -218,16 +220,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: SIZES.medium,
-  },
-  scoreContainer: {
-    marginTop: SIZES.large,
-    padding: SIZES.medium,
-    borderRadius: SIZES.base,
-  },
-  scoreText: {
-    fontSize: SIZES.body,
-    fontWeight: "600",
-    textAlign: "center",
   },
 });
 

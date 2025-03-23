@@ -14,6 +14,8 @@ interface FlagQuizCardProps {
   isLoading: boolean;
   questionNumber: number;
   totalQuestions: number;
+  correctAnswers: number;
+  wrongAnswers: number;
 }
 
 const { width } = Dimensions.get("window");
@@ -29,6 +31,8 @@ const FlagQuizCard: React.FC<FlagQuizCardProps> = ({
   isLoading,
   questionNumber,
   totalQuestions,
+  correctAnswers,
+  wrongAnswers,
 }) => {
   const { colors } = useAppTheme();
 
@@ -67,12 +71,38 @@ const FlagQuizCard: React.FC<FlagQuizCardProps> = ({
     return colors.text;
   };
 
+  // 진행률 계산
+  const progressPercentage = (questionNumber / totalQuestions) * 100;
+
   return (
     <Card style={{ ...styles.container, backgroundColor: colors.background }}>
       <View style={styles.progressContainer}>
-        <Text style={[styles.progressText, { color: colors.primary }]}>
-          {questionNumber}/{totalQuestions}
-        </Text>
+        <View style={styles.progressHeader}>
+          <Text style={[styles.progressText, { color: colors.primary }]}>
+            {questionNumber}/{totalQuestions}
+          </Text>
+          <View style={styles.scoreDetails}>
+            <Text style={[styles.scoreText, { color: COLORS.success }]}>
+              {i18n.t("correct")}: {correctAnswers}
+            </Text>
+            <Text style={[styles.scoreText, { color: COLORS.error }]}>
+              {i18n.t("wrong")}: {wrongAnswers}
+            </Text>
+          </View>
+        </View>
+
+        {/* 진행 바 추가 */}
+        <View style={styles.progressBarContainer}>
+          <View
+            style={[
+              styles.progressBar,
+              {
+                width: `${progressPercentage}%`,
+                backgroundColor: colors.primary,
+              },
+            ]}
+          />
+        </View>
       </View>
 
       <Text style={[styles.question, { color: colors.text }]}>{i18n.t("whichCountry")}</Text>
@@ -116,11 +146,36 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     padding: SIZES.medium,
+  },
+  progressHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: SIZES.small,
   },
   progressText: {
     fontSize: SIZES.body,
     fontWeight: "600",
+  },
+  scoreDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  scoreText: {
+    fontSize: SIZES.body,
+    fontWeight: "600",
+    marginLeft: SIZES.small,
+  },
+  progressBarContainer: {
+    height: 6,
+    backgroundColor: "#E0E0E0",
+    borderRadius: 3,
+    overflow: "hidden",
+    marginTop: SIZES.small,
+  },
+  progressBar: {
+    height: "100%",
+    borderRadius: 3,
   },
   question: {
     fontSize: SIZES.body,
