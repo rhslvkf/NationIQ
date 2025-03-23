@@ -7,6 +7,7 @@ export const COLORS = {
   primary: "#2C6BED", // 메인 컬러 (밝은 파란색)
   secondary: "#34C759", // 보조 컬러 (녹색)
   accent: "#FF9500", // 액센트 컬러 (주황색)
+  purple: "#9C27B0", // 매우 어려움 난이도 색상 (보라색)
 
   // 중립 색상
   white: "#FFFFFF",

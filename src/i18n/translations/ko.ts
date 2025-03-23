@@ -9,6 +9,8 @@ export default {
   loading: "로딩 중...",
   error: "오류",
   retry: "다시 시도",
+  quit: "종료",
+  quitQuizConfirmation: "퀴즈를 종료하시겠습니까? 현재 진행 상황은 저장되지 않습니다.",
 
   // 홈 화면
   home: "홈",
@@ -24,6 +26,7 @@ export default {
   easy: "쉬움",
   medium: "보통",
   hard: "어려움",
+  veryHard: "매우 어려움",
 
   // 국기 퀴즈
   whichCountry: "이 국기는 어느 나라의 국기인가요?",
@@ -38,6 +41,12 @@ export default {
   quizResult: "퀴즈 결과",
   congratulations: "축하합니다!",
   completed: "퀴즈를 완료했습니다!",
+  excellent: "훌륭합니다! 국기 전문가!",
+  goodJob: "잘했습니다! 계속 연습하세요!",
+  needPractice: "좀 더 연습이 필요합니다. 다시 도전해보세요!",
+  correctAnswers: "정답",
+  wrongAnswers: "오답",
+  difficulty: "난이도",
 
   // 설정
   settings: "설정",

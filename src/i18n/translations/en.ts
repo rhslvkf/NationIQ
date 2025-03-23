@@ -9,6 +9,8 @@ export default {
   loading: "Loading...",
   error: "Error",
   retry: "Retry",
+  quit: "Quit",
+  quitQuizConfirmation: "Are you sure you want to quit the quiz? Your current progress will not be saved.",
 
   // 홈 화면
   home: "Home",
@@ -24,6 +26,7 @@ export default {
   easy: "Easy",
   medium: "Medium",
   hard: "Hard",
+  veryHard: "Very Hard",
 
   // 국기 퀴즈
   whichCountry: "Which country does this flag belong to?",
@@ -38,6 +41,12 @@ export default {
   quizResult: "Quiz Result",
   congratulations: "Congratulations!",
   completed: "You have completed the quiz!",
+  excellent: "Excellent! You're a flag expert!",
+  goodJob: "Good job! Keep practicing!",
+  needPractice: "You need more practice. Try again!",
+  correctAnswers: "Correct",
+  wrongAnswers: "Wrong",
+  difficulty: "Difficulty",
 
   // 설정
   settings: "Settings",

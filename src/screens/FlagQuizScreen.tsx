@@ -11,6 +11,7 @@ import FlagQuizCard from "../components/FlagQuizCard";
 import DifficultySelector from "../components/DifficultySelector";
 import { generateFlagQuiz } from "../services/countryService";
 import i18n from "../i18n";
+import { useAppTheme } from "../hooks/useAppTheme";
 
 type FlagQuizScreenRouteProp = RouteProp<RootStackParamList, "FlagQuiz">;
 type FlagQuizScreenNavigationProp = StackNavigationProp<RootStackParamList, "FlagQuiz">;
@@ -20,6 +21,7 @@ const QUESTIONS_COUNT = 10;
 const FlagQuizScreen: React.FC = () => {
   const route = useRoute<FlagQuizScreenRouteProp>();
   const navigation = useNavigation<FlagQuizScreenNavigationProp>();
+  const { colors } = useAppTheme();
 
   // 언어 변경을 감지하기 위한 상태
   const [currentLanguage, setCurrentLanguage] = useState(i18n.locale);
@@ -102,10 +104,13 @@ const FlagQuizScreen: React.FC = () => {
         setSelectedOption(null);
       } else {
         // 퀴즈 종료, 결과 화면으로 이동
+        const finalCorrectAnswers = correctAnswers + (isCorrect ? 1 : 0);
+        const finalWrongAnswers = wrongAnswers + (isCorrect ? 0 : 1);
+
         const result: QuizResult = {
           totalQuestions: questions.length,
-          correctAnswers,
-          wrongAnswers,
+          correctAnswers: finalCorrectAnswers,
+          wrongAnswers: finalWrongAnswers,
           score: score + (isCorrect ? 1 : 0), // 현재 정답 여부 반영
           difficulty,
         };
@@ -119,10 +124,10 @@ const FlagQuizScreen: React.FC = () => {
   const handleGoBack = () => {
     if (quizStarted) {
       // 진행 중인 퀴즈가 있는 경우 확인
-      Alert.alert("퀴즈 종료", "퀴즈를 종료하시겠습니까? 현재 진행 상황은 저장되지 않습니다.", [
-        { text: "취소", style: "cancel" },
+      Alert.alert(i18n.t("cancel"), i18n.t("quitQuizConfirmation"), [
+        { text: i18n.t("cancel"), style: "cancel" },
         {
-          text: "종료",
+          text: i18n.t("quit"),
           onPress: () => {
             setQuizStarted(false);
             navigation.goBack();
@@ -139,13 +144,13 @@ const FlagQuizScreen: React.FC = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <Header title={i18n.t("flagQuizTitle")} showBackButton onBackPress={handleGoBack} style={styles.header} />
 
       {quizStarted ? (
         <View style={styles.quizContainer}>
           {isLoading ? (
-            <ActivityIndicator size="large" color={COLORS.primary} />
+            <ActivityIndicator size="large" color={colors.primary} />
           ) : (
             <>
               <FlagQuizCard
@@ -160,8 +165,8 @@ const FlagQuizScreen: React.FC = () => {
               />
 
               {/* 현재 스코어 표시 */}
-              <View style={styles.scoreContainer}>
-                <Text style={styles.scoreText}>
+              <View style={[styles.scoreContainer, { backgroundColor: colors.card }]}>
+                <Text style={[styles.scoreText, { color: colors.primary }]}>
                   {i18n.t("yourScore")}: {score}/{currentQuestionIndex + (selectedOption ? 1 : 0)}
                 </Text>
               </View>
@@ -170,7 +175,7 @@ const FlagQuizScreen: React.FC = () => {
         </View>
       ) : (
         <View style={styles.setupContainer}>
-          <Text style={styles.setupTitle}>{i18n.t("flagQuizDesc")}</Text>
+          <Text style={[styles.setupTitle, { color: colors.text }]}>{i18n.t("flagQuizDesc")}</Text>
 
           <DifficultySelector onSelectDifficulty={handleSelectDifficulty} selectedDifficulty={difficulty} />
 
@@ -190,7 +195,6 @@ const FlagQuizScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   header: {
     marginBottom: SIZES.medium,
@@ -219,12 +223,10 @@ const styles = StyleSheet.create({
     marginTop: SIZES.large,
     padding: SIZES.medium,
     borderRadius: SIZES.base,
-    backgroundColor: COLORS.gray100,
   },
   scoreText: {
     fontSize: SIZES.body,
     fontWeight: "600",
-    color: COLORS.primary,
     textAlign: "center",
   },
 });

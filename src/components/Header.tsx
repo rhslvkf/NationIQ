@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ViewStyle } from "react-nativ
 import { COLORS, FONTS, SIZES } from "../constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useAppTheme } from "../hooks/useAppTheme";
 
 interface HeaderProps {
   title: string;
@@ -14,6 +15,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, rightComponent, style, onBackPress }) => {
   const navigation = useNavigation();
+  const { colors } = useAppTheme();
 
   const handleBackPress = () => {
     if (onBackPress) {
@@ -24,7 +26,16 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, rightCom
   };
 
   return (
-    <View style={[styles.container, style]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: colors.background,
+          borderBottomColor: colors.border,
+        },
+        style,
+      ]}
+    >
       <View style={styles.leftContainer}>
         {showBackButton && (
           <TouchableOpacity
@@ -32,12 +43,12 @@ const Header: React.FC<HeaderProps> = ({ title, showBackButton = false, rightCom
             onPress={handleBackPress}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
-            <Ionicons name="chevron-back" size={SIZES.iconMedium} color={COLORS.primary} />
+            <Ionicons name="chevron-back" size={SIZES.iconMedium} color={colors.primary} />
           </TouchableOpacity>
         )}
       </View>
 
-      <Text style={styles.title} numberOfLines={1}>
+      <Text style={[styles.title, { color: colors.text }]} numberOfLines={1}>
         {title}
       </Text>
 
@@ -53,9 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: SIZES.medium,
-    backgroundColor: COLORS.white,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray200,
   },
   leftContainer: {
     width: 40,
@@ -73,7 +82,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: SIZES.subheader,
     fontWeight: "600",
-    color: COLORS.black,
   },
 });
 

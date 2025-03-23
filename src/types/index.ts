@@ -3,6 +3,7 @@ export enum Difficulty {
   EASY = "easy",
   MEDIUM = "medium",
   HARD = "hard",
+  VERY_HARD = "veryHard",
 }
 
 // 국가 정보 인터페이스

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, ActivityIn
 import { COLORS, SIZES, SHADOWS } from "../constants/theme";
 import Card from "./Card";
 import i18n from "../i18n";
+import { useAppTheme } from "../hooks/useAppTheme";
 
 interface FlagQuizCardProps {
   flag: string;
@@ -29,6 +30,8 @@ const FlagQuizCard: React.FC<FlagQuizCardProps> = ({
   questionNumber,
   totalQuestions,
 }) => {
+  const { colors } = useAppTheme();
+
   // 언어 변경을 감지하기 위한 상태
   const [currentLanguage, setCurrentLanguage] = useState(i18n.locale);
 
@@ -45,38 +48,38 @@ const FlagQuizCard: React.FC<FlagQuizCardProps> = ({
 
   // 옵션 버튼의 배경색 결정
   const getOptionBackgroundColor = (option: string) => {
-    if (!selectedOption) return COLORS.white;
+    if (!selectedOption) return colors.card;
 
     if (option === correctAnswer) return COLORS.success;
     if (option === selectedOption && option !== correctAnswer) return COLORS.error;
 
-    return COLORS.white;
+    return colors.card;
   };
 
   // 옵션 버튼의 텍스트 색상 결정
   const getOptionTextColor = (option: string) => {
-    if (!selectedOption) return COLORS.black;
+    if (!selectedOption) return colors.text;
 
     if (option === correctAnswer || (option === selectedOption && option !== correctAnswer)) {
       return COLORS.white;
     }
 
-    return COLORS.black;
+    return colors.text;
   };
 
   return (
-    <Card style={styles.container}>
+    <Card style={{ ...styles.container, backgroundColor: colors.background }}>
       <View style={styles.progressContainer}>
-        <Text style={styles.progressText}>
+        <Text style={[styles.progressText, { color: colors.primary }]}>
           {questionNumber}/{totalQuestions}
         </Text>
       </View>
 
-      <Text style={styles.question}>{i18n.t("whichCountry")}</Text>
+      <Text style={[styles.question, { color: colors.text }]}>{i18n.t("whichCountry")}</Text>
 
       <View style={styles.flagContainer}>
         {isLoading ? (
-          <ActivityIndicator size="large" color={COLORS.primary} />
+          <ActivityIndicator size="large" color={colors.primary} />
         ) : (
           <Image source={{ uri: flag }} style={styles.flagImage} resizeMode="cover" />
         )}
@@ -86,7 +89,13 @@ const FlagQuizCard: React.FC<FlagQuizCardProps> = ({
         {options.map((option, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.optionButton, { backgroundColor: getOptionBackgroundColor(option) }]}
+            style={[
+              styles.optionButton,
+              {
+                backgroundColor: getOptionBackgroundColor(option),
+                borderColor: colors.border,
+              },
+            ]}
             onPress={() => onSelectOption(option)}
             disabled={!!selectedOption}
           >
@@ -112,7 +121,6 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: SIZES.body,
     fontWeight: "600",
-    color: COLORS.primary,
   },
   question: {
     fontSize: SIZES.body,
@@ -144,7 +152,6 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.base,
     marginBottom: SIZES.base,
     borderWidth: 1,
-    borderColor: COLORS.gray300,
     ...SHADOWS.small,
   },
   optionText: {

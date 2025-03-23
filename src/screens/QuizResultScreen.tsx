@@ -9,6 +9,7 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "../i18n";
+import { useAppTheme } from "../hooks/useAppTheme";
 
 type QuizResultScreenRouteProp = RouteProp<RootStackParamList, "QuizResult">;
 type QuizResultScreenNavigationProp = StackNavigationProp<RootStackParamList, "QuizResult">;
@@ -16,12 +17,13 @@ type QuizResultScreenNavigationProp = StackNavigationProp<RootStackParamList, "Q
 const QuizResultScreen: React.FC = () => {
   const route = useRoute<QuizResultScreenRouteProp>();
   const navigation = useNavigation<QuizResultScreenNavigationProp>();
+  const { colors } = useAppTheme();
 
   const { result } = route.params;
   const { totalQuestions, correctAnswers, wrongAnswers, score, difficulty } = result;
 
-  // 점수 비율 계산
-  const scorePercentage = Math.round((score / totalQuestions) * 100);
+  // 점수 비율 계산 (올바른 계산: 정답 수 / 총 문제 수)
+  const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
 
   // 결과 아이콘 및 메시지 결정
   const getResultIcon = () => {
@@ -31,9 +33,9 @@ const QuizResultScreen: React.FC = () => {
   };
 
   const getResultMessage = () => {
-    if (scorePercentage >= 80) return "훌륭합니다! 국기 전문가!";
-    if (scorePercentage >= 50) return "잘했습니다! 계속 연습하세요!";
-    return "좀 더 연습이 필요합니다. 다시 도전해보세요!";
+    if (scorePercentage >= 80) return i18n.t("excellent");
+    if (scorePercentage >= 50) return i18n.t("goodJob");
+    return i18n.t("needPractice");
   };
 
   // 난이도에 따른 색상
@@ -45,6 +47,8 @@ const QuizResultScreen: React.FC = () => {
         return COLORS.accent;
       case Difficulty.HARD:
         return COLORS.error;
+      case Difficulty.VERY_HARD:
+        return COLORS.purple;
       default:
         return COLORS.primary;
     }
@@ -59,6 +63,8 @@ const QuizResultScreen: React.FC = () => {
         return i18n.t("medium");
       case Difficulty.HARD:
         return i18n.t("hard");
+      case Difficulty.VERY_HARD:
+        return i18n.t("veryHard");
       default:
         return "";
     }
@@ -75,7 +81,7 @@ const QuizResultScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <Header title={i18n.t("quizResult")} style={styles.header} />
 
       <ScrollView
@@ -84,22 +90,22 @@ const QuizResultScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.resultContainer}>
-          <View style={styles.resultIconContainer}>
-            <Ionicons name={getResultIcon()} size={80} color={COLORS.primary} />
+          <View style={[styles.resultIconContainer, { backgroundColor: colors.card }]}>
+            <Ionicons name={getResultIcon()} size={80} color={colors.primary} />
           </View>
 
-          <Text style={styles.congratsText}>{i18n.t("congratulations")}</Text>
-          <Text style={styles.resultMessage}>{getResultMessage()}</Text>
+          <Text style={[styles.congratsText, { color: colors.text }]}>{i18n.t("congratulations")}</Text>
+          <Text style={[styles.resultMessage, { color: colors.textSecondary }]}>{getResultMessage()}</Text>
 
-          <View style={styles.scoreCard}>
+          <View style={[styles.scoreCard, { backgroundColor: colors.card }]}>
             <View style={styles.scoreRow}>
-              <Text style={styles.scoreLabel}>{i18n.t("yourScore")}</Text>
-              <Text style={styles.scoreValue}>
-                {score}/{totalQuestions}
+              <Text style={[styles.scoreLabel, { color: colors.text }]}>{i18n.t("yourScore")}</Text>
+              <Text style={[styles.scoreValue, { color: colors.primary }]}>
+                {correctAnswers}/{totalQuestions}
               </Text>
             </View>
 
-            <View style={styles.scorePercentContainer}>
+            <View style={[styles.scorePercentContainer, { backgroundColor: colors.border }]}>
               <View
                 style={[
                   styles.scorePercentBar,
@@ -112,27 +118,27 @@ const QuizResultScreen: React.FC = () => {
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
                 <Ionicons name="checkmark-circle" size={24} color={COLORS.success} />
-                <Text style={styles.statValue}>{correctAnswers}</Text>
-                <Text style={styles.statLabel}>정답</Text>
+                <Text style={[styles.statValue, { color: colors.text }]}>{correctAnswers}</Text>
+                <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{i18n.t("correctAnswers")}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Ionicons name="close-circle" size={24} color={COLORS.error} />
-                <Text style={styles.statValue}>{wrongAnswers}</Text>
-                <Text style={styles.statLabel}>오답</Text>
+                <Text style={[styles.statValue, { color: colors.text }]}>{wrongAnswers}</Text>
+                <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{i18n.t("wrongAnswers")}</Text>
               </View>
 
               <View style={styles.statItem}>
                 <Ionicons name="speedometer" size={24} color={getDifficultyColor()} />
                 <Text style={[styles.statValue, { color: getDifficultyColor() }]}>{getDifficultyText()}</Text>
-                <Text style={styles.statLabel}>난이도</Text>
+                <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{i18n.t("difficulty")}</Text>
               </View>
             </View>
           </View>
         </View>
       </ScrollView>
 
-      <View style={styles.buttonsContainer}>
+      <View style={[styles.buttonsContainer, { borderTopColor: colors.border }]}>
         <Button title={i18n.t("tryAgain")} onPress={handlePlayAgain} style={styles.button} />
         <Button title={i18n.t("backToHome")} onPress={handleGoHome} variant="outline" style={styles.button} />
       </View>
@@ -143,7 +149,6 @@ const QuizResultScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   header: {
     marginBottom: SIZES.medium,
@@ -162,7 +167,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: COLORS.gray100,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: SIZES.large,
@@ -171,19 +175,16 @@ const styles = StyleSheet.create({
   congratsText: {
     fontSize: SIZES.header,
     fontWeight: "bold",
-    color: COLORS.black,
     marginBottom: SIZES.small,
     textAlign: "center",
   },
   resultMessage: {
     fontSize: SIZES.body,
-    color: COLORS.gray600,
     textAlign: "center",
     marginBottom: SIZES.xlarge,
   },
   scoreCard: {
     width: "100%",
-    backgroundColor: COLORS.white,
     borderRadius: SIZES.cardRadius,
     padding: SIZES.large,
     ...SHADOWS.medium,
@@ -197,16 +198,13 @@ const styles = StyleSheet.create({
   scoreLabel: {
     fontSize: SIZES.body,
     fontWeight: "600",
-    color: COLORS.black,
   },
   scoreValue: {
     fontSize: SIZES.subheader,
     fontWeight: "bold",
-    color: COLORS.primary,
   },
   scorePercentContainer: {
     height: 8,
-    backgroundColor: COLORS.gray200,
     borderRadius: 4,
     marginBottom: SIZES.large,
     overflow: "hidden",
@@ -230,12 +228,10 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: SIZES.bodySmall,
-    color: COLORS.gray600,
   },
   buttonsContainer: {
     padding: SIZES.medium,
     borderTopWidth: 1,
-    borderTopColor: COLORS.gray200,
   },
   button: {
     marginBottom: SIZES.base,

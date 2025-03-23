@@ -1,5 +1,6 @@
 import { Country, Difficulty, Question } from "../types";
 import i18n from "../i18n";
+import difficultyLevels from "../config/difficultyLevels";
 
 // API URL
 const BASE_URL = "https://restcountries.com/v3.1";
@@ -77,22 +78,36 @@ export const generateFlagQuiz = async (difficulty: Difficulty, count: number = 1
 
     switch (difficulty) {
       case Difficulty.EASY:
-        // 쉬움: 인구가 많은 유명한 국가들 (상위 40개국)
-        filteredCountries = countries.sort((a, b) => b.population - a.population).slice(0, 40);
+        // 쉬움: difficultyLevels의 easy 배열에 포함된 국가들
+        filteredCountries = countries.filter((country) => difficultyLevels.easy.includes(country.cca3));
         break;
 
       case Difficulty.MEDIUM:
-        // 중간: 인구 기준 중간 범위의 국가들 (40-120위)
-        filteredCountries = countries.sort((a, b) => b.population - a.population).slice(40, 120);
+        // 보통: difficultyLevels의 medium 배열에 포함된 국가들
+        filteredCountries = countries.filter((country) => difficultyLevels.medium.includes(country.cca3));
         break;
 
       case Difficulty.HARD:
-        // 어려움: 인구가 적거나 덜 알려진 국가들 (120위 이하)
-        filteredCountries = countries.sort((a, b) => b.population - a.population).slice(120);
+        // 어려움: difficultyLevels의 hard 배열에 포함된 국가들
+        filteredCountries = countries.filter((country) => difficultyLevels.hard.includes(country.cca3));
+        break;
+
+      case Difficulty.VERY_HARD:
+        // 매우 어려움: difficultyLevels의 veryHard 배열에 포함된 국가들
+        filteredCountries = countries.filter((country) => difficultyLevels.veryHard.includes(country.cca3));
         break;
 
       default:
         filteredCountries = countries;
+    }
+
+    // 선택된 국가가 충분하지 않으면 일반 국가 목록에서 추가
+    if (filteredCountries.length < count) {
+      const remainingCountries = countries.filter((country) => !filteredCountries.includes(country));
+      filteredCountries = [
+        ...filteredCountries,
+        ...shuffleArray(remainingCountries).slice(0, count - filteredCountries.length),
+      ];
     }
 
     // 랜덤으로 count 수만큼 국가 선택

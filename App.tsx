@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import AppNavigation from "./src/navigation";
+import { ThemeProvider } from "./src/context/ThemeContext";
 
 // 스플래시 화면 유지
 SplashScreen.preventAutoHideAsync();
@@ -43,9 +44,11 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider onLayout={onLayoutRootView}>
-      <AppNavigation />
-    </SafeAreaProvider>
+    <ThemeProvider>
+      <SafeAreaProvider onLayout={onLayoutRootView}>
+        <AppNavigation />
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
 

@@ -8,11 +8,13 @@ import { RootStackParamList, Difficulty } from "../types";
 import Card from "../components/Card";
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "../i18n";
+import { useAppTheme } from "../hooks/useAppTheme";
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { colors } = useAppTheme();
   // 언어 변경을 감지하기 위한 상태
   const [currentLanguage, setCurrentLanguage] = useState(i18n.locale);
 
@@ -36,11 +38,11 @@ const HomeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{i18n.t("appName")}</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
+        <Text style={[styles.title, { color: colors.primary }]}>{i18n.t("appName")}</Text>
         <TouchableOpacity onPress={handleGoToSettings}>
-          <Ionicons name="settings-outline" size={24} color={COLORS.primary} />
+          <Ionicons name="settings-outline" size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>
 
@@ -50,21 +52,21 @@ const HomeScreen: React.FC = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeText}>{i18n.t("welcome")}</Text>
-          <Text style={styles.subtitleText}>{i18n.t("chooseQuiz")}</Text>
+          <Text style={[styles.welcomeText, { color: colors.text }]}>{i18n.t("welcome")}</Text>
+          <Text style={[styles.subtitleText, { color: colors.textSecondary }]}>{i18n.t("chooseQuiz")}</Text>
         </View>
 
         <View style={styles.quizSection}>
           <Card style={styles.quizCard} onPress={handleGoToFlagQuiz}>
             <View style={styles.quizCardContent}>
-              <View style={styles.quizIconContainer}>
+              <View style={[styles.quizIconContainer, { backgroundColor: colors.primary }]}>
                 <Ionicons name="flag" size={32} color={COLORS.white} />
               </View>
               <View style={styles.quizCardTextContainer}>
-                <Text style={styles.quizTitle}>{i18n.t("flagQuiz")}</Text>
-                <Text style={styles.quizDescription}>{i18n.t("flagQuizDesc")}</Text>
+                <Text style={[styles.quizTitle, { color: colors.text }]}>{i18n.t("flagQuiz")}</Text>
+                <Text style={[styles.quizDescription, { color: colors.textSecondary }]}>{i18n.t("flagQuizDesc")}</Text>
               </View>
-              <Ionicons name="chevron-forward" size={24} color={COLORS.gray600} />
+              <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
             </View>
           </Card>
 
@@ -78,7 +80,6 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   header: {
     flexDirection: "row",
@@ -87,12 +88,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.large,
     paddingVertical: SIZES.medium,
     borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray200,
   },
   title: {
     fontSize: SIZES.header,
     fontWeight: "bold",
-    color: COLORS.primary,
   },
   scrollView: {
     flex: 1,
@@ -106,12 +105,10 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: SIZES.subheader,
     fontWeight: "bold",
-    color: COLORS.black,
     marginBottom: SIZES.small,
   },
   subtitleText: {
     fontSize: SIZES.body,
-    color: COLORS.gray600,
   },
   quizSection: {
     marginTop: SIZES.medium,
@@ -127,7 +124,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
     marginRight: SIZES.medium,
@@ -142,7 +138,6 @@ const styles = StyleSheet.create({
   },
   quizDescription: {
     fontSize: SIZES.bodySmall,
-    color: COLORS.gray600,
   },
 });
 

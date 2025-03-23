@@ -9,6 +9,7 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 import { COLORS, SIZES } from "../constants/theme";
+import { useAppTheme } from "../hooks/useAppTheme";
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -32,6 +33,8 @@ const Button: React.FC<ButtonProps> = ({
   textStyle,
   ...rest
 }) => {
+  const { colors } = useAppTheme();
+
   // 버튼 스타일 결정
   const getButtonStyle = () => {
     const baseStyle: ViewStyle = {
@@ -62,10 +65,10 @@ const Button: React.FC<ButtonProps> = ({
       case "outline":
         baseStyle.backgroundColor = "transparent";
         baseStyle.borderWidth = 1;
-        baseStyle.borderColor = COLORS.primary;
+        baseStyle.borderColor = colors.primary;
         break;
       default:
-        baseStyle.backgroundColor = COLORS.primary;
+        baseStyle.backgroundColor = colors.primary;
     }
 
     return baseStyle;
@@ -91,7 +94,7 @@ const Button: React.FC<ButtonProps> = ({
 
     // 변형에 따른 텍스트 스타일
     if (variant === "outline") {
-      baseStyle.color = COLORS.primary;
+      baseStyle.color = colors.primary;
     }
 
     return baseStyle;
@@ -106,7 +109,7 @@ const Button: React.FC<ButtonProps> = ({
       {...rest}
     >
       {isLoading ? (
-        <ActivityIndicator color={variant === "outline" ? COLORS.primary : COLORS.white} size="small" />
+        <ActivityIndicator color={variant === "outline" ? colors.primary : COLORS.white} size="small" />
       ) : (
         <Text style={[getTextStyle(), textStyle]}>{title}</Text>
       )}
