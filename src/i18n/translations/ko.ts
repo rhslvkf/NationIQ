@@ -23,6 +23,11 @@ export default {
   flagQuizTitle: "국기 퀴즈",
   flagQuizDesc: "국가 국기에 대한 지식을 테스트하세요",
   selectDifficulty: "난이도 선택",
+  selectQuestionCount: "문제 개수 선택",
+  questions: "문제",
+  quickQuiz: "빠른 퀴즈",
+  standardQuiz: "표준 퀴즈",
+  extendedQuiz: "확장 퀴즈",
   easy: "쉬움",
   medium: "보통",
   hard: "어려움",
@@ -30,8 +35,8 @@ export default {
 
   // 국기 퀴즈
   whichCountry: "이 국기는 어느 나라의 국기인가요?",
-  correct: "정답!",
-  wrong: "오답!",
+  correct: "정답",
+  wrong: "오답",
   yourScore: "당신의 점수",
   totalQuestions: "총 문제 수",
   backToHome: "홈으로 돌아가기",

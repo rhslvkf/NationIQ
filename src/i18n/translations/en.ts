@@ -23,6 +23,11 @@ export default {
   flagQuizTitle: "Flag Quiz",
   flagQuizDesc: "Test your knowledge of country flags",
   selectDifficulty: "Select Difficulty",
+  selectQuestionCount: "Select Question Count",
+  questions: "Questions",
+  quickQuiz: "Quick quiz",
+  standardQuiz: "Standard quiz",
+  extendedQuiz: "Extended quiz",
   easy: "Easy",
   medium: "Medium",
   hard: "Hard",
@@ -30,8 +35,8 @@ export default {
 
   // 국기 퀴즈
   whichCountry: "Which country does this flag belong to?",
-  correct: "Correct!",
-  wrong: "Wrong!",
+  correct: "Correct",
+  wrong: "Wrong",
   yourScore: "Your Score",
   totalQuestions: "Total Questions",
   backToHome: "Back to Home",

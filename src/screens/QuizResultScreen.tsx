@@ -94,7 +94,6 @@ const QuizResultScreen: React.FC = () => {
             <Ionicons name={getResultIcon()} size={80} color={colors.primary} />
           </View>
 
-          <Text style={[styles.congratsText, { color: colors.text }]}>{i18n.t("congratulations")}</Text>
           <Text style={[styles.resultMessage, { color: colors.textSecondary }]}>{getResultMessage()}</Text>
 
           <View style={[styles.scoreCard, { backgroundColor: colors.card }]}>
