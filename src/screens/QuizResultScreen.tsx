@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, Image, ScrollView, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -7,9 +7,10 @@ import { RootStackParamList, Difficulty } from "../types";
 import { COLORS, SIZES, SHADOWS } from "../constants/theme";
 import Header from "../components/Header";
 import Button from "../components/Button";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import i18n from "../i18n";
 import { useAppTheme } from "../hooks/useAppTheme";
+import { LinearGradient } from "expo-linear-gradient";
 
 type QuizResultScreenRouteProp = RouteProp<RootStackParamList, "QuizResult">;
 type QuizResultScreenNavigationProp = StackNavigationProp<RootStackParamList, "QuizResult">;
@@ -25,17 +26,56 @@ const QuizResultScreen: React.FC = () => {
   // 점수 비율 계산 (올바른 계산: 정답 수 / 총 문제 수)
   const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
 
+  // 애니메이션 값 초기화
+  const scaleAnim = React.useRef(new Animated.Value(0.5)).current;
+  const opacityAnim = React.useRef(new Animated.Value(0)).current;
+
+  // 컴포넌트 마운트 시 애니메이션 실행
+  useEffect(() => {
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 5,
+        tension: 40,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
   // 결과 아이콘 및 메시지 결정
   const getResultIcon = () => {
-    if (scorePercentage >= 80) return "trophy-outline";
-    if (scorePercentage >= 50) return "thumbs-up-outline";
-    return "school-outline";
+    if (scorePercentage >= 90) return "trophy";
+    if (scorePercentage >= 80) return "medal";
+    if (scorePercentage >= 70) return "star";
+    if (scorePercentage >= 50) return "thumbs-up";
+    if (scorePercentage >= 30) return "book";
+    return "seedling";
   };
 
+  // 결과 메시지를 더 다양하게 구성
   const getResultMessage = () => {
-    if (scorePercentage >= 80) return i18n.t("excellent");
-    if (scorePercentage >= 50) return i18n.t("goodJob");
-    return i18n.t("needPractice");
+    if (scorePercentage === 100) return i18n.t("perfect"); // 100% 정답
+    if (scorePercentage >= 90) return i18n.t("excellent"); // 90% 이상
+    if (scorePercentage >= 80) return i18n.t("veryGood"); // 80% 이상
+    if (scorePercentage >= 70) return i18n.t("goodJob"); // 70% 이상
+    if (scorePercentage >= 50) return i18n.t("keepGoing"); // 50% 이상
+    if (scorePercentage >= 30) return i18n.t("needPractice"); // 30% 이상
+    return i18n.t("tryHarder"); // 30% 미만
+  };
+
+  // 결과 아이콘 색상 그라데이션 설정
+  const getResultGradient = () => {
+    if (scorePercentage >= 90) return [COLORS.gold, "#FFB347"]; // 금색 그라데이션
+    if (scorePercentage >= 80) return [COLORS.purple, "#7D3C98"]; // 보라색 그라데이션
+    if (scorePercentage >= 70) return [COLORS.accent, "#FF7700"]; // 주황색 그라데이션
+    if (scorePercentage >= 50) return [COLORS.info, "#2E86C1"]; // 파란색 그라데이션
+    if (scorePercentage >= 30) return [COLORS.secondary, "#218c74"]; // 녹색 그라데이션
+    return [COLORS.gray500, COLORS.gray600]; // 회색 그라데이션
   };
 
   // 난이도에 따른 색상
@@ -92,19 +132,33 @@ const QuizResultScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header title={i18n.t("quizResult")} style={styles.header} />
+      <Header title={i18n.t("quizResult")} showBackButton onBackPress={handleGoHome} style={styles.header} />
 
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={styles.resultContainer}>
-          <View style={[styles.resultIconContainer, { backgroundColor: colors.card }]}>
-            <Ionicons name={getResultIcon()} size={80} color={colors.primary} />
-          </View>
+          <Animated.View
+            style={[
+              styles.resultIconWrapper,
+              {
+                transform: [{ scale: scaleAnim }],
+                opacity: opacityAnim,
+              },
+            ]}
+          >
+            <LinearGradient
+              colors={getResultGradient()}
+              style={styles.resultIconContainer}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            >
+              <FontAwesome5 name={getResultIcon()} size={60} color={COLORS.white} />
+            </LinearGradient>
+          </Animated.View>
 
-          <Text style={[styles.resultMessage, { color: colors.textSecondary }]}>{getResultMessage()}</Text>
+          <Animated.View style={{ opacity: opacityAnim }}>
+            <Text style={[styles.scorePercentText, { color: getResultGradient()[0] }]}>{scorePercentage}%</Text>
+            <Text style={[styles.resultMessage, { color: colors.text }]}>{getResultMessage()}</Text>
+          </Animated.View>
 
           <View style={[styles.scoreCard, { backgroundColor: colors.card }]}>
             <View style={styles.scoreRow}>
@@ -172,25 +226,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: SIZES.xlarge,
   },
+  resultIconWrapper: {
+    marginBottom: SIZES.large,
+  },
   resultIconContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: SIZES.large,
     ...SHADOWS.medium,
   },
-  congratsText: {
-    fontSize: SIZES.header,
+  scorePercentText: {
+    fontSize: SIZES.header * 1.5,
     fontWeight: "bold",
-    marginBottom: SIZES.small,
     textAlign: "center",
+    marginBottom: SIZES.small,
   },
   resultMessage: {
-    fontSize: SIZES.body,
+    fontSize: SIZES.subheader,
+    fontWeight: "600",
     textAlign: "center",
     marginBottom: SIZES.xlarge,
+    paddingHorizontal: SIZES.large,
   },
   scoreCard: {
     width: "100%",
