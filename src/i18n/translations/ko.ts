@@ -17,13 +17,17 @@ export default {
   welcome: "NationIQ에 오신 것을 환영합니다",
   chooseQuiz: "퀴즈 선택",
   flagQuiz: "국기 퀴즈",
+  capitalQuiz: "수도 퀴즈",
 
   // 퀴즈 화면
   quizzes: "퀴즈",
   flagQuizTitle: "국기 퀴즈",
   flagQuizDesc: "국가 국기에 대한 지식을 테스트하세요",
+  capitalQuizTitle: "수도 퀴즈",
+  capitalQuizDesc: "국가 수도에 대한 지식을 테스트하세요",
   selectDifficulty: "난이도 선택",
   selectQuestionCount: "문제 개수 선택",
+  selectQuizType: "퀴즈 유형 선택",
   questions: "문제",
   quickQuiz: "빠른 퀴즈",
   standardQuiz: "표준 퀴즈",
@@ -41,6 +45,13 @@ export default {
   totalQuestions: "총 문제 수",
   backToHome: "홈으로 돌아가기",
   tryAgain: "다시 시도하기",
+
+  // 수도 퀴즈
+  countryToCapital: "국가 → 수도",
+  capitalToCountry: "수도 → 국가",
+  mixedQuiz: "혼합 퀴즈",
+  whichCapital: "이 국가의 수도는 무엇인가요?",
+  whichCountryCapital: "이 수도는 어느 나라의 수도인가요?",
 
   // 결과
   quizResult: "퀴즈 결과",

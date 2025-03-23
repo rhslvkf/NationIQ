@@ -51,10 +51,28 @@ export interface QuizResult {
   difficulty: Difficulty;
 }
 
+// 퀴즈 타입 열거형 추가
+export enum QuizType {
+  COUNTRY_TO_CAPITAL = "COUNTRY_TO_CAPITAL", // 국가 -> 수도
+  CAPITAL_TO_COUNTRY = "CAPITAL_TO_COUNTRY", // 수도 -> 국가
+  MIXED = "MIXED", // 혼합
+}
+
+// 수도 퀴즈를 위한 타입 정의
+export interface CapitalQuiz {
+  question: string; // 질문 (국가 이름 또는 수도 이름)
+  options: string[]; // 보기 옵션들
+  correctAnswer: string; // 정답
+  quizType: QuizType; // 퀴즈 타입
+  countryName?: string; // 국가 이름 (UI 표시용)
+  capitalName?: string; // 수도 이름 (UI 표시용)
+}
+
 // 네비게이션 파라미터 타입
 export type RootStackParamList = {
   Home: undefined;
-  FlagQuiz: { difficulty: Difficulty };
+  FlagQuiz: { difficulty?: Difficulty };
+  CapitalQuiz: { difficulty?: Difficulty };
   QuizResult: { result: QuizResult };
   Settings: undefined;
 };

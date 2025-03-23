@@ -77,7 +77,17 @@ const QuizResultScreen: React.FC = () => {
 
   // 같은 난이도로 다시 시작
   const handlePlayAgain = () => {
-    navigation.navigate("FlagQuiz", { difficulty });
+    // 현재 화면으로 돌아온 경로 확인
+    const previousScreen = navigation
+      .getState()
+      .routes.find((route) => route.name === "FlagQuiz" || route.name === "CapitalQuiz");
+
+    if (previousScreen && previousScreen.name === "CapitalQuiz") {
+      navigation.navigate("CapitalQuiz", { difficulty });
+    } else {
+      // 기본값 또는 FlagQuiz에서 온 경우
+      navigation.navigate("FlagQuiz", { difficulty });
+    }
   };
 
   return (

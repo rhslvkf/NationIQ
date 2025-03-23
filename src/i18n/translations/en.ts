@@ -17,13 +17,17 @@ export default {
   welcome: "Welcome to NationIQ",
   chooseQuiz: "Choose a Quiz",
   flagQuiz: "Flag Quiz",
+  capitalQuiz: "Capital Quiz",
 
   // 퀴즈 화면
   quizzes: "Quizzes",
   flagQuizTitle: "Flag Quiz",
   flagQuizDesc: "Test your knowledge of country flags",
+  capitalQuizTitle: "Capital Quiz",
+  capitalQuizDesc: "Test your knowledge of country capitals",
   selectDifficulty: "Select Difficulty",
   selectQuestionCount: "Select Question Count",
+  selectQuizType: "Select Quiz Type",
   questions: "Questions",
   quickQuiz: "Quick quiz",
   standardQuiz: "Standard quiz",
@@ -41,6 +45,13 @@ export default {
   totalQuestions: "Total Questions",
   backToHome: "Back to Home",
   tryAgain: "Try Again",
+
+  // 수도 퀴즈
+  countryToCapital: "Country to Capital",
+  capitalToCountry: "Capital to Country",
+  mixedQuiz: "Mixed Quiz",
+  whichCapital: "What is the capital of this country?",
+  whichCountryCapital: "Which country has this capital city?",
 
   // 결과
   quizResult: "Quiz Result",

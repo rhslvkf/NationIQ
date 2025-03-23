@@ -33,6 +33,10 @@ const HomeScreen: React.FC = () => {
     navigation.navigate("FlagQuiz", { difficulty: Difficulty.EASY });
   };
 
+  const handleGoToCapitalQuiz = () => {
+    navigation.navigate("CapitalQuiz", { difficulty: Difficulty.EASY });
+  };
+
   const handleGoToSettings = () => {
     navigation.navigate("Settings");
   };
@@ -70,7 +74,21 @@ const HomeScreen: React.FC = () => {
             </View>
           </Card>
 
-          {/* 여기에 추가 퀴즈 종류를 추가할 수 있음 */}
+          {/* 수도 퀴즈 카드 추가 */}
+          <Card style={styles.quizCard} onPress={handleGoToCapitalQuiz}>
+            <View style={styles.quizCardContent}>
+              <View style={[styles.quizIconContainer, { backgroundColor: COLORS.accent }]}>
+                <Ionicons name="location" size={32} color={COLORS.white} />
+              </View>
+              <View style={styles.quizCardTextContainer}>
+                <Text style={[styles.quizTitle, { color: colors.text }]}>{i18n.t("capitalQuiz")}</Text>
+                <Text style={[styles.quizDescription, { color: colors.textSecondary }]}>
+                  {i18n.t("capitalQuizDesc")}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
+            </View>
+          </Card>
         </View>
       </ScrollView>
     </SafeAreaView>
