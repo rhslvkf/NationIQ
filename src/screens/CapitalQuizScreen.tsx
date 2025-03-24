@@ -89,9 +89,7 @@ const CapitalQuizScreen: React.FC = () => {
       setWrongAnswers(0);
       setQuizStarted(true);
     } catch (error) {
-      Alert.alert(i18n.t("error"), "퀴즈 데이터를 불러오는데 실패했습니다. 다시 시도해주세요.", [
-        { text: i18n.t("retry"), onPress: handleStartQuiz },
-      ]);
+      Alert.alert(i18n.t("error"), i18n.t("quizLoadError"), [{ text: i18n.t("retry"), onPress: handleStartQuiz }]);
     } finally {
       setIsLoading(false);
     }
@@ -99,11 +97,13 @@ const CapitalQuizScreen: React.FC = () => {
 
   // 선택지 선택 핸들러
   const handleSelectOption = (option: string) => {
-    if (selectedOption) return; // 이미 선택한 경우 무시
+    if (selectedOption || !questions.length) return; // 이미 선택했거나 문제가 없는 경우 무시
+
+    const currentQuestion = questions[currentQuestionIndex];
+    if (!currentQuestion) return; // 현재 문제가 없는 경우 무시
 
     setSelectedOption(option);
 
-    const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = option === currentQuestion.correctAnswer;
 
     if (isCorrect) {
@@ -127,7 +127,7 @@ const CapitalQuizScreen: React.FC = () => {
           totalQuestions: questions.length,
           correctAnswers: finalCorrectAnswers,
           wrongAnswers: finalWrongAnswers,
-          score: score + (isCorrect ? 1 : 0), // 현재 정답 여부 반영
+          score: Math.round((finalCorrectAnswers / questions.length) * 100),
           difficulty,
         };
 
@@ -167,7 +167,7 @@ const CapitalQuizScreen: React.FC = () => {
         <View style={styles.quizContainer}>
           {isLoading ? (
             <ActivityIndicator size="large" color={colors.primary} />
-          ) : (
+          ) : currentQuestion ? (
             <CapitalQuizCard
               question={currentQuestion.question}
               options={currentQuestion.options}
@@ -181,7 +181,7 @@ const CapitalQuizScreen: React.FC = () => {
               wrongAnswers={wrongAnswers}
               quizType={currentQuestion.quizType}
             />
-          )}
+          ) : null}
         </View>
       ) : (
         <ScrollView

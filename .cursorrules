@@ -96,6 +96,10 @@ Internationalization (i18n)
 - Use react-native-i18n or expo-localization for internationalization and localization.
 - Support multiple languages and RTL layouts.
 - Ensure text scaling and font adjustments for accessibility.
+- 다국어 지원은 아래 파일을 사용해주세요. (현재는 영어와 한국어만 지원합니다.)
+- src/i18n/index.ts
+- src/i18n/translations/ko.ts
+- src/i18n/translations/en.ts
 
 Key Conventions
 

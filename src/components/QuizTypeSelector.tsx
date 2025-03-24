@@ -11,11 +11,17 @@ interface QuizTypeSelectorProps {
   selectedQuizType: QuizType;
 }
 
+interface QuizTypeConfig {
+  icon: string;
+  color: string;
+  text: string;
+}
+
 const QuizTypeSelector: React.FC<QuizTypeSelectorProps> = ({ onSelectQuizType, selectedQuizType }) => {
   const { colors } = useAppTheme();
 
   // 퀴즈 유형별 아이콘과 색상 정의
-  const quizTypeConfig = {
+  const quizTypeConfig: Record<QuizType, QuizTypeConfig> = {
     [QuizType.COUNTRY_TO_CAPITAL]: {
       icon: "flag-outline",
       color: COLORS.secondary,
@@ -62,7 +68,7 @@ const QuizTypeSelector: React.FC<QuizTypeSelectorProps> = ({ onSelectQuizType, s
     <View style={styles.container}>
       <Text style={[styles.title, { color: colors.text }]}>{i18n.t("selectQuizType")}</Text>
 
-      <View style={styles.optionsContainer}>{Object.values(QuizType).map(renderQuizTypeOption)}</View>
+      <View style={styles.optionsContainer}>{Object.values(QuizType).map((type) => renderQuizTypeOption(type))}</View>
     </View>
   );
 };
