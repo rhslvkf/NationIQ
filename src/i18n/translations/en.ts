@@ -39,6 +39,9 @@ export default {
   medium: "Medium",
   hard: "Hard",
   veryHard: "Very Hard",
+  startQuiz: "Start Quiz",
+  restartQuiz: "Restart Quiz",
+  questionProgress: "{{current}}/{{total}}",
 
   // 국기 퀴즈
   whichCountry: "Which country does this flag belong to?",
@@ -62,6 +65,16 @@ export default {
   landmarkMixed: "Landmark Mixed Quiz",
   whichLandmarkCountry: "In which country is this landmark ({landmark})?",
   whichLandmarkName: "What is the name of this landmark?",
+  checkAnswer: "Check Answer",
+  nextQuestion: "Next Question",
+  finishQuiz: "Finish Quiz",
+  pleaseSelectBoth: "Please select both country and landmark",
+  landmarkQuizQuestion: "What is the name of this landmark?",
+  selectCountry: "Select Country",
+  selectLandmark: "Select Landmark",
+  correctAnswerWas: "Correct Answer: {{answer}}",
+  partiallyCorrect: "Partially Correct",
+  landmarkQuizDescription: "Look at photos of famous landmarks around the world and identify their names.",
 
   // 결과
   quizResult: "Quiz Result",

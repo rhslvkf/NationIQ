@@ -33,6 +33,17 @@ export interface Country {
   };
 }
 
+// 간소화된 국가 정보 (UI 표시용)
+export interface SimpleCountry {
+  name: string;
+  capital: string;
+  cca3: string;
+  flagPng: string;
+  latLng: number[];
+  continent: string;
+  flagEmoji: string;
+}
+
 // 퀴즈 문제 인터페이스
 export interface Question {
   id: string;
@@ -56,9 +67,6 @@ export enum QuizType {
   COUNTRY_TO_CAPITAL = "COUNTRY_TO_CAPITAL", // 국가 -> 수도
   CAPITAL_TO_COUNTRY = "CAPITAL_TO_COUNTRY", // 수도 -> 국가
   MIXED = "MIXED", // 혼합
-  LANDMARK_TO_COUNTRY = "LANDMARK_TO_COUNTRY", // 명소 -> 국가
-  LANDMARK_TO_NAME = "LANDMARK_TO_NAME", // 명소 -> 명소명
-  LANDMARK_MIXED = "LANDMARK_MIXED", // 명소 혼합
 }
 
 // 수도 퀴즈를 위한 타입 정의
@@ -71,10 +79,16 @@ export interface CapitalQuiz {
   capitalName?: string; // 수도 이름 (UI 표시용)
 }
 
+// 다국어 명소 이름 인터페이스
+export interface LandmarkName {
+  en: string;
+  ko: string;
+}
+
 // 명소 정보 인터페이스
 export interface Landmark {
   id: string;
-  name: string;
+  name: string | LandmarkName;
   imageUrl: string;
   description: string;
   country: {
@@ -86,20 +100,16 @@ export interface Landmark {
 }
 
 /**
- * 명소 퀴즈 인터페이스 - 국가와 명소명을 동시에 맞추는 퀴즈를 위해 업데이트
+ * 명소 퀴즈 인터페이스 - 명소명을 맞추는 퀴즈
  */
 export interface LandmarkQuiz {
   id: string;
   imageUrl: string;
   question: string;
-  landmarkName: string;
+  correctLandmark: string;
+  landmarkOptions: string[];
+  correctAnswer: string;
   countryName: string;
-  description?: string;
-  countryOptions: string[]; // 국가 선택지 목록
-  landmarkOptions: string[]; // 명소 선택지 목록
-  correctCountry: string; // 정답 국가
-  correctLandmark: string; // 정답 명소
-  difficulty: string;
 }
 
 // 네비게이션 파라미터 타입

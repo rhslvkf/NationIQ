@@ -34,6 +34,14 @@ export default {
   correct: "정답!",
   wrong: "오답!",
   questionProgress: "{{current}}/{{total}}",
+  questions: "문제",
+  quickQuiz: "빠른 퀴즈",
+  standardQuiz: "표준 퀴즈",
+  extendedQuiz: "확장 퀴즈",
+  checkAnswer: "정답 확인",
+  nextQuestion: "다음 문제",
+  finishQuiz: "퀴즈 완료",
+  pleaseSelectBoth: "국가와 명소를 모두 선택해주세요",
 
   // 국기 퀴즈
   flagQuiz: "국기 퀴즈",

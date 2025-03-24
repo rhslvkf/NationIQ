@@ -120,12 +120,21 @@ const QuizResultScreen: React.FC = () => {
     // 현재 화면으로 돌아온 경로 확인
     const previousScreen = navigation
       .getState()
-      .routes.find((route) => route.name === "FlagQuiz" || route.name === "CapitalQuiz");
+      .routes.find(
+        (route) => route.name === "FlagQuiz" || route.name === "CapitalQuiz" || route.name === "LandmarkQuiz"
+      );
 
-    if (previousScreen && previousScreen.name === "CapitalQuiz") {
-      navigation.navigate("CapitalQuiz", { difficulty });
+    if (previousScreen) {
+      if (previousScreen.name === "CapitalQuiz") {
+        navigation.navigate("CapitalQuiz", { difficulty });
+      } else if (previousScreen.name === "LandmarkQuiz") {
+        navigation.navigate("LandmarkQuiz", { difficulty });
+      } else {
+        // FlagQuiz에서 온 경우
+        navigation.navigate("FlagQuiz", { difficulty });
+      }
     } else {
-      // 기본값 또는 FlagQuiz에서 온 경우
+      // 이전 화면을 확인할 수 없는 경우 기본값은 FlagQuiz
       navigation.navigate("FlagQuiz", { difficulty });
     }
   };

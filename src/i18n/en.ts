@@ -34,6 +34,14 @@ export default {
   correct: "Correct!",
   wrong: "Wrong!",
   questionProgress: "{{current}}/{{total}}",
+  questions: "Questions",
+  quickQuiz: "Quick Quiz",
+  standardQuiz: "Standard Quiz",
+  extendedQuiz: "Extended Quiz",
+  checkAnswer: "Check Answer",
+  nextQuestion: "Next Question",
+  finishQuiz: "Finish Quiz",
+  pleaseSelectBoth: "Please select both country and landmark",
 
   // Flag Quiz
   flagQuiz: "Flag Quiz",

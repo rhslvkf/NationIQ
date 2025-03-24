@@ -39,6 +39,9 @@ export default {
   medium: "보통",
   hard: "어려움",
   veryHard: "매우 어려움",
+  startQuiz: "퀴즈 시작",
+  restartQuiz: "다시 시작",
+  questionProgress: "{{current}}/{{total}}",
 
   // 국기 퀴즈
   whichCountry: "이 국기는 어느 나라의 국기인가요?",
@@ -62,6 +65,16 @@ export default {
   landmarkMixed: "명소 혼합 퀴즈",
   whichLandmarkCountry: "이 명소({landmark})는 어느 나라에 있나요?",
   whichLandmarkName: "이 명소의 이름은 무엇인가요?",
+  checkAnswer: "정답 확인",
+  nextQuestion: "다음 문제",
+  finishQuiz: "퀴즈 완료",
+  pleaseSelectBoth: "국가와 명소를 모두 선택해주세요",
+  landmarkQuizQuestion: "이 명소의 이름은 무엇인가요?",
+  selectCountry: "국가 선택",
+  selectLandmark: "명소 선택",
+  correctAnswerWas: "정답: {{answer}}",
+  partiallyCorrect: "부분 정답",
+  landmarkQuizDescription: "세계적으로 유명한 명소의 사진을 보고 해당 명소의 이름을 맞춰보세요.",
 
   // 결과
   quizResult: "퀴즈 결과",
