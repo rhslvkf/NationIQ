@@ -1,0 +1,722 @@
+[
+  {
+    "id": "landmark_1",
+    "name": "Eiffel Tower",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/320px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
+    "description": "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+    "country": {
+      "name": "France",
+      "code": "FRA"
+    },
+    "continent": "Europe",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_2",
+    "name": "Statue of Liberty",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Front_view_of_Statue_of_Liberty_with_pedestal_and_base_2024.jpg/320px-Front_view_of_Statue_of_Liberty_with_pedestal_and_base_2024.jpg",
+    "description": "The Statue of Liberty is a colossal neoclassical sculpture on Liberty Island in New York Harbor, within New York City. The copper-clad statue, a gift to the United States from the people of France, was designed by French sculptor Frédéric Auguste Bartholdi and its metal framework was built by Gustav...",
+    "country": {
+      "name": "United States",
+      "code": "USA"
+    },
+    "continent": "North America",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_3",
+    "name": "Great Wall of China",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/320px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+    "description": "The Great Wall of China is a series of fortifications in China. They were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Eurasian Steppe. The first walls date to the 7th century BC; these were joined tog...",
+    "country": {
+      "name": "China",
+      "code": "CHN"
+    },
+    "continent": "Asia",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_4",
+    "name": "Taj Mahal",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/330px-Taj_Mahal_%28Edited%29.jpeg",
+    "description": "The Taj Mahal is an ivory-white marble mausoleum on the right bank of the river Yamuna in Agra, Uttar Pradesh, India. It was commissioned in 1631 by the fifth Mughal emperor, Shah Jahan to house the tomb of his beloved wife, Mumtaz Mahal; it also houses the tomb of Shah Jahan himself. The tomb is th...",
+    "country": {
+      "name": "India",
+      "code": "IND"
+    },
+    "continent": "Asia",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_5",
+    "name": "Pyramids of Giza",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pyramids_of_the_Giza_Necropolis.jpg/320px-Pyramids_of_the_Giza_Necropolis.jpg",
+    "description": "The Giza pyramid complex in Egypt is home to the Great Pyramid, the pyramid of Khafre, and the pyramid of Menkaure, along with their associated pyramid complexes and the Great Sphinx. All were built during the Fourth Dynasty of the Old Kingdom of ancient Egypt, between c. 2600 – c. 2500 BC. The site...",
+    "country": {
+      "name": "Egypt",
+      "code": "EGY"
+    },
+    "continent": "Africa",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_6",
+    "name": "Colosseum",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/330px-Colosseo_2020.jpg",
+    "description": "The Colosseum is an elliptical amphitheatre in the centre of the city of Rome, Italy, just east of the Roman Forum. It is the largest ancient amphitheatre ever built, and is still the largest standing amphitheatre in the world, despite its age. Construction began under the Emperor Vespasian in 72 an...",
+    "country": {
+      "name": "Italy",
+      "code": "ITA"
+    },
+    "continent": "Europe",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_7",
+    "name": "Sydney Opera House",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Sydney_Australia._%2821339175489%29.jpg/320px-Sydney_Australia._%2821339175489%29.jpg",
+    "description": "The Sydney Opera House is a multi-venue performing arts centre in Sydney, New South Wales, Australia. Located on the foreshore of Sydney Harbour, it is widely regarded as one of the world's most famous and distinctive buildings, and a masterpiece of 20th-century architecture.",
+    "country": {
+      "name": "Australia",
+      "code": "AUS"
+    },
+    "continent": "Oceania",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_8",
+    "name": "Big Ben",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Elizabeth_Tower%2C_June_2022.jpg/320px-Elizabeth_Tower%2C_June_2022.jpg",
+    "description": "Big Ben is the nickname for the Great Bell of the Great Clock of Westminster, and, by extension, for the clock tower itself, which stands at the north end of the Palace of Westminster in London, England. Originally known simply as the Clock Tower, it was renamed Elizabeth Tower in 2012 to mark the D...",
+    "country": {
+      "name": "United Kingdom",
+      "code": "GBR"
+    },
+    "continent": "Europe",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_9",
+    "name": "Christ the Redeemer",
+    "imageUrl": "https://source.unsplash.com/1600x900/?Christ%20the%20Redeemer,landmark",
+    "description": "Christ the Redeemer, a reference to Jesus Christ as the Redeemer of humanity, may refer to:",
+    "country": {
+      "name": "Brazil",
+      "code": "BRA"
+    },
+    "continent": "South America",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_10",
+    "name": "Machu Picchu",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Machu_Picchu%2C_2023_%28012%29.jpg/320px-Machu_Picchu%2C_2023_%28012%29.jpg",
+    "description": "Machu Picchu is a 15th-century Inca citadel located in the Eastern Cordillera of southern Peru on a mountain ridge at 2,430 meters (7,970 ft). Often referred to as the \"Lost City of the Incas\", it is the most familiar icon of the Inca Empire. It is located in the Machupicchu District within the Urub...",
+    "country": {
+      "name": "Peru",
+      "code": "PER"
+    },
+    "continent": "South America",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_11",
+    "name": "Leaning Tower of Pisa",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Italy_-_Pisa_-_Leaning_Tower.jpg/320px-Italy_-_Pisa_-_Leaning_Tower.jpg",
+    "description": "The Leaning Tower of Pisa, or simply the Tower of Pisa, is the campanile, or freestanding bell tower, of Pisa Cathedral. It is known for its nearly four-degree lean, the result of an unstable foundation. The tower is one of three structures in Pisa's Cathedral Square, which includes the cathedral an...",
+    "country": {
+      "name": "Italy",
+      "code": "ITA"
+    },
+    "continent": "Europe",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_12",
+    "name": "Sagrada Familia",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Sagrada_Familia_1-4-24.jpg/320px-Sagrada_Familia_1-4-24.jpg",
+    "description": "The Basílica i Temple Expiatori de la Sagrada Família, otherwise known as Sagrada Família, is a church under construction in the Eixample district of Barcelona, Catalonia, Spain. It is the largest unfinished Catholic church in the world. Designed by the Catalan architect Antoni Gaudí (1852–1926), in...",
+    "country": {
+      "name": "Spain",
+      "code": "ESP"
+    },
+    "continent": "Europe",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_13",
+    "name": "Mount Fuji",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg/320px-View_of_Mount_Fuji_from_%C5%8Cwakudani_20211202.jpg",
+    "description": "Mount Fuji  is an active stratovolcano located on the Japanese island of Honshu, with a summit elevation of 3,776.24 m. It is the highest mountain in Japan, the second-highest volcano located on an island in Asia, and seventh-highest peak of an island on Earth. Mount Fuji last erupted from 1707 to 1...",
+    "country": {
+      "name": "Japan",
+      "code": "JPN"
+    },
+    "continent": "Asia",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_14",
+    "name": "Burj Khalifa",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg/330px-Burj_Khalifa_%28worlds_tallest_building%29_and_the_Dubai_skyline_%2825781049892%29.jpg",
+    "description": "The Burj Khalifa is a skyscraper in Dubai, United Arab Emirates. With a total height of 829.8m and a roof height of 828m (2,717ft), it is the world's tallest structure. It also holds the record of tallest building in the world since its topping out in 2009, surpassing Taipei 101, the holder of that ...",
+    "country": {
+      "name": "United Arab Emirates",
+      "code": "ARE"
+    },
+    "continent": "Asia",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_15",
+    "name": "Gyeongbokgung Palace",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/%EA%B4%91%ED%99%94%EB%AC%B8_%EC%9B%94%EB%8C%80.jpg/320px-%EA%B4%91%ED%99%94%EB%AC%B8_%EC%9B%94%EB%8C%80.jpg",
+    "description": "Gyeongbokgung is a former royal palace in Seoul, South Korea. It was the first royal palace of the Joseon dynasty, having been established in 1395. It is now one of the most significant tourist attractions in the country.",
+    "country": {
+      "name": "South Korea",
+      "code": "KOR"
+    },
+    "continent": "Asia",
+    "difficulty": "easy"
+  },
+  {
+    "id": "landmark_16",
+    "name": "Acropolis of Athens",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Classic_view_of_Acropolis.jpg/320px-Classic_view_of_Acropolis.jpg",
+    "description": "The Acropolis of Athens is an ancient citadel located on a rocky outcrop above the city of Athens, Greece, and contains the remains of several ancient buildings of great architectural and historical significance, the most famous being the Parthenon. The word Acropolis is from Greek  ἄκρον (akron) 'h...",
+    "country": {
+      "name": "Greece",
+      "code": "GRC"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_17",
+    "name": "Angkor Wat",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/20171126_Angkor_Wat_4712_DxO.jpg/330px-20171126_Angkor_Wat_4712_DxO.jpg",
+    "description": "Angkor Wat is a Hindu-Buddhist temple complex in Cambodia. Located on a site measuring 162.6 hectares within the ancient Khmer capital city of Angkor, it was originally constructed in 1150 CE as a Hindu temple dedicated to the deity Vishnu. It was later gradually transformed into a Buddhist temple t...",
+    "country": {
+      "name": "Cambodia",
+      "code": "KHM"
+    },
+    "continent": "Asia",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_18",
+    "name": "Petra",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Urn_Tomb%2C_Petra_01.jpg/320px-Urn_Tomb%2C_Petra_01.jpg",
+    "description": "Petra, originally known to its inhabitants as Raqmu, is a historic and archaeological city in southern Jordan. Famous for its rock-cut architecture and water conduit systems, Petra is also called the \"Rose City\" because of the colour of the sandstone from which it is carved. The city is one of the N...",
+    "country": {
+      "name": "Jordan",
+      "code": "JOR"
+    },
+    "continent": "Asia",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_19",
+    "name": "Stonehenge",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Stonehenge2007_07_30.jpg/320px-Stonehenge2007_07_30.jpg",
+    "description": "Stonehenge is a prehistoric megalithic structure on Salisbury Plain in Wiltshire, England, two miles (3 km) west of Amesbury. It consists of an outer ring of vertical sarsen standing stones, each around 13 feet (4.0 m) high, seven feet (2.1 m) wide, and weighing around 25 tons, topped by connecting ...",
+    "country": {
+      "name": "United Kingdom",
+      "code": "GBR"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_20",
+    "name": "Chichen Itza",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/320px-Chichen_Itza_3.jpg",
+    "description": "Chichén Itzá was a large pre-Columbian city built by the Maya people of the Terminal Classic period. The archeological site is located in Tinúm Municipality, Yucatán State, Mexico.",
+    "country": {
+      "name": "Mexico",
+      "code": "MEX"
+    },
+    "continent": "North America",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_21",
+    "name": "Moai of Easter Island",
+    "imageUrl": "https://source.unsplash.com/1600x900/?Moai%20of%20Easter%20Island,landmark",
+    "description": "Moai of Easter Island is a famous landmark.",
+    "country": {
+      "name": "Chile",
+      "code": "CHL"
+    },
+    "continent": "South America",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_22",
+    "name": "Neuschwanstein Castle",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Schloss_Neuschwanstein_2013.jpg/330px-Schloss_Neuschwanstein_2013.jpg",
+    "description": "Neuschwanstein Castle is a 19th-century historicist palace on a rugged hill of the foothills of the Alps in the very south of Germany, near the border with Austria. It is located in the Swabia region of Bavaria, in the municipality of Schwangau, above the incorporated village of Hohenschwangau, whic...",
+    "country": {
+      "name": "Germany",
+      "code": "DEU"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_23",
+    "name": "Brandenburg Gate",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Brandenburger_Tor_abends.jpg/330px-Brandenburger_Tor_abends.jpg",
+    "description": "The Brandenburg Gate is an 18th-century neoclassical monument in Berlin. One of the best-known landmarks of Germany, it was erected on the site of a former city gate that marked the start of the road from Berlin to Brandenburg an der Havel, the former capital of the Margraviate of Brandenburg. The c...",
+    "country": {
+      "name": "Germany",
+      "code": "DEU"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_24",
+    "name": "Hagia Sophia",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Hagia_Sophia_Mars_2013.jpg/320px-Hagia_Sophia_Mars_2013.jpg",
+    "description": "Hagia Sophia, officially the Hagia Sophia Grand Mosque, is a mosque, museum and former church serving as a major cultural and historical site in Istanbul, Turkey. The last of three church buildings to be successively erected on the site by the Eastern Roman Empire, it was completed in AD 537, becomi...",
+    "country": {
+      "name": "Turkey",
+      "code": "TUR"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_25",
+    "name": "St. Peter's Basilica",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg/320px-Basilica_di_San_Pietro_in_Vaticano_September_2015-1a.jpg",
+    "description": "The Papal Basilica of Saint Peter in the Vatican City, or simply Saint Peter's Basilica, is a church of the Italian High Renaissance located in Vatican City, an independent microstate enclaved within the city of Rome, Italy. It was initially planned in the 15th century by Pope Nicholas V and then Po...",
+    "country": {
+      "name": "Vatican City",
+      "code": "VAT"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_26",
+    "name": "Grand Canyon",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Canyon_River_Tree_%28165872763%29.jpeg/320px-Canyon_River_Tree_%28165872763%29.jpeg",
+    "description": "The Grand Canyon is a steep-sided canyon carved by the Colorado River in Arizona, United States. The Grand Canyon is 277 miles (446 km) long, up to 18 miles (29 km) wide and attains a depth of over a mile.",
+    "country": {
+      "name": "United States",
+      "code": "USA"
+    },
+    "continent": "North America",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_27",
+    "name": "Niagara Falls",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/3Falls_Niagara.jpg/320px-3Falls_Niagara.jpg",
+    "description": "Niagara Falls is a group of three waterfalls at the southern end of Niagara Gorge, spanning the border between the province of Ontario in Canada and the state of New York in the United States. The largest of the three is Horseshoe Falls, which straddles the international border of the two countries....",
+    "country": {
+      "name": "Canada",
+      "code": "CAN"
+    },
+    "continent": "North America",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_28",
+    "name": "Kremlin",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Moscow_Kremlin_%288281675670%29.jpg/320px-Moscow_Kremlin_%288281675670%29.jpg",
+    "description": "The Moscow Kremlin is a fortified complex in Moscow, Russia. Located in the centre of the country's capital city, the Moscow Kremlin comprises five palaces, four cathedrals, and the enclosing Kremlin Wall along with the Kremlin towers. In the complex is the Grand Kremlin Palace, which was one of the...",
+    "country": {
+      "name": "Russia",
+      "code": "RUS"
+    },
+    "continent": "Europe",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_29",
+    "name": "Victoria Falls",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Cataratas_Victoria%2C_Zambia-Zimbabue%2C_2018-07-27%2C_DD_04.jpg/320px-Cataratas_Victoria%2C_Zambia-Zimbabue%2C_2018-07-27%2C_DD_04.jpg",
+    "description": "Victoria Falls is a waterfall on the Zambezi River, located on the border between Zambia and Zimbabwe. It is one of the world's largest waterfalls, with a width of 1,708 m (5,604 ft). The region around it has a high degree of biodiversity in both plants and animals.",
+    "country": {
+      "name": "Zimbabwe",
+      "code": "ZWE"
+    },
+    "continent": "Africa",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_30",
+    "name": "Borobudur",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Pradaksina.jpg/320px-Pradaksina.jpg",
+    "description": "Borobudur, also transcribed Barabudur, is a 9th-century Mahayana Buddhist temple in Magelang Regency, near the city of Magelang and the town of Muntilan, in Central Java, Indonesia.",
+    "country": {
+      "name": "Indonesia",
+      "code": "IDN"
+    },
+    "continent": "Asia",
+    "difficulty": "medium"
+  },
+  {
+    "id": "landmark_31",
+    "name": "Potala Palace",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Potala_Palace_HQ.jpg/320px-Potala_Palace_HQ.jpg",
+    "description": "Potala Palace is the name of a museum in Xizang Autonomous Region of China, previously a palace of the Tibetan sovereign the Dalai Lama, in the dzong-style, in Lhasa capital of Xizang or Tibet. It was the winter palace of the Dalai Lamas from 1649. In 1959 the Tibetan government ceased inhabitation ...",
+    "country": {
+      "name": "China",
+      "code": "CHN"
+    },
+    "continent": "Asia",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_32",
+    "name": "Mont Saint-Michel",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Mont-Saint-Michel_vu_du_ciel.jpg/320px-Mont-Saint-Michel_vu_du_ciel.jpg",
+    "description": "Mont-Saint-Michel is a tidal island and mainland commune in Normandy, France.",
+    "country": {
+      "name": "France",
+      "code": "FRA"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_33",
+    "name": "Alhambra",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Dawn_Charles_V_Palace_Alhambra_Granada_Andalusia_Spain.jpg/320px-Dawn_Charles_V_Palace_Alhambra_Granada_Andalusia_Spain.jpg",
+    "description": "The Alhambra is a palace and fortress complex located in Granada, Spain. It is one of the most famous monuments of Islamic architecture and one of the best-preserved palaces of the historic Islamic world. Additionally, the palace contains notable examples of Spanish Renaissance architecture.",
+    "country": {
+      "name": "Spain",
+      "code": "ESP"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_34",
+    "name": "Cappadocia",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cappadocia_balloon_trip%2C_Ortahisar_Castle_%2811893715185%29.jpg/330px-Cappadocia_balloon_trip%2C_Ortahisar_Castle_%2811893715185%29.jpg",
+    "description": "Cappadocia is a historical region in Central Anatolia region, Turkey. It is largely in the provinces of Nevşehir, Kayseri, Aksaray, Kırşehir, Sivas and Niğde.",
+    "country": {
+      "name": "Turkey",
+      "code": "TUR"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_35",
+    "name": "Forbidden City",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/The_Forbidden_City_-_View_from_Coal_Hill.jpg/320px-The_Forbidden_City_-_View_from_Coal_Hill.jpg",
+    "description": "The Forbidden City is the imperial palace complex in the center of the Imperial City in Beijing, China. It was the residence of 24 Ming and Qing dynasty Emperors, and the center of political power in China for over 500 years from 1420 to 1924. The palace is now administered by the Palace Museum. As ...",
+    "country": {
+      "name": "China",
+      "code": "CHN"
+    },
+    "continent": "Asia",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_36",
+    "name": "Terracotta Army",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/51714-Terracota-Army.jpg/330px-51714-Terracota-Army.jpg",
+    "description": "The Terracotta Army is a collection of terracotta sculptures depicting the armies of Qin Shi Huang, the first emperor of China. It is a form of funerary art buried with the emperor in 210–209 BCE with the purpose of protecting him in his afterlife.",
+    "country": {
+      "name": "China",
+      "code": "CHN"
+    },
+    "continent": "Asia",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_37",
+    "name": "Plitvice Lakes",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Plitvice_lakes.JPG/320px-Plitvice_lakes.JPG",
+    "description": "Plitvice Lakes National Park is one of the oldest and largest national parks in Croatia. In 1979, Plitvice Lakes National Park was inscribed on the UNESCO World Heritage list, for its outstanding and picturesque series of tufa lakes, caves, and connected waterfalls.",
+    "country": {
+      "name": "Croatia",
+      "code": "HRV"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_38",
+    "name": "Bagan",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Bagan%2C_Burma.jpg/320px-Bagan%2C_Burma.jpg",
+    "description": "Bagan is an ancient city and a UNESCO World Heritage Site in the Mandalay Region of Myanmar. From the 9th to 13th centuries, the city was the capital of the Pagan Kingdom, the first kingdom that unified the regions that would later constitute Myanmar. During the kingdom's height between the 11th and...",
+    "country": {
+      "name": "Myanmar",
+      "code": "MMR"
+    },
+    "continent": "Asia",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_39",
+    "name": "Meteora",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Meteora%27s_monastery_2.jpg/320px-Meteora%27s_monastery_2.jpg",
+    "description": "The Meteora is a rock formation in the regional unit of Trikala, in Thessaly, in northwestern Greece, hosting one of the most prominent complexes of Eastern Orthodox monasteries, viewed locally as second in importance only to Mount Athos. Twenty-four monasteries were established atop the giant natur...",
+    "country": {
+      "name": "Greece",
+      "code": "GRC"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_40",
+    "name": "Santorini",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Santorini_Montage_L.png/320px-Santorini_Montage_L.png",
+    "description": "Santorini, officially Thira or Thera, is a Greek island in the southern Aegean Sea, about 200 km (120 mi) southeast from the mainland. It is the largest island of a small, circular archipelago formed by the Santorini caldera. It is the southernmost member of the Cyclades group of islands, with an ar...",
+    "country": {
+      "name": "Greece",
+      "code": "GRC"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_41",
+    "name": "Antelope Canyon",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/USA_Antelope-Canyon.jpg/320px-USA_Antelope-Canyon.jpg",
+    "description": "Navajo Upper Antelope Canyon is a slot canyon in the American Southwest, on Navajo land east of Lechee, Arizona. It includes six separate, scenic slot canyon sections on the Navajo Reservation, referred to as Upper Antelope Canyon, Rattle Snake Canyon, Owl Canyon, Mountain Sheep Canyon, Canyon X and...",
+    "country": {
+      "name": "United States",
+      "code": "USA"
+    },
+    "continent": "North America",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_42",
+    "name": "Wadden Sea",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/13-09-29-nordfriesisches-wattenmeer-RalfR-19.jpg/330px-13-09-29-nordfriesisches-wattenmeer-RalfR-19.jpg",
+    "description": "The Wadden Sea is an intertidal zone in the southeastern part of the North Sea. It lies between the coast of northwestern continental Europe and the range of low-lying Frisian Islands, forming a shallow body of water with tidal flats and wetlands. It has a high biological diversity and is an importa...",
+    "country": {
+      "name": "Netherlands",
+      "code": "NLD"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_43",
+    "name": "Waitomo Glowworm Caves",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Green_Glow_Caves_in_New_Zealand_%286563152219%29.jpg/320px-Green_Glow_Caves_in_New_Zealand_%286563152219%29.jpg",
+    "description": "The Waitomo Glowworm Caves attraction is a cave at Waitomo on the North Island of New Zealand. It is known for its population of Arachnocampa luminosa, a glowworm species found exclusively in New Zealand. This cave is part of the waitomo streamway system that includes the Ruakuri Cave, Lucky Strike,...",
+    "country": {
+      "name": "New Zealand",
+      "code": "NZL"
+    },
+    "continent": "Oceania",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_44",
+    "name": "Pamukkale",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Pamukkale_30.jpg/320px-Pamukkale_30.jpg",
+    "description": "Pamukkale, meaning \"cotton castle\" in Turkish, is a natural site in Denizli Province in southwestern Turkey. The area is famous for a carbonate mineral left by the flowing of thermal spring water. It is located in Turkey's Inner Aegean region, in the River Menderes valley, which has a temperate clim...",
+    "country": {
+      "name": "Turkey",
+      "code": "TUR"
+    },
+    "continent": "Europe",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_45",
+    "name": "Jeju Island",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Jeju_Island.jpg/320px-Jeju_Island.jpg",
+    "description": "Jeju Island is South Korea's largest island, covering an area of 1,833.2 km2 (707.8 sq mi), which is 1.83% of the total area of the country. Alongside outlying islands, it is part of Jeju Province and makes up the majority of the province.",
+    "country": {
+      "name": "South Korea",
+      "code": "KOR"
+    },
+    "continent": "Asia",
+    "difficulty": "hard"
+  },
+  {
+    "id": "landmark_46",
+    "name": "Tsingy de Bemaraha",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Tsingy_de_Bemaraha_Strict_Nature_Reserve.jpg/320px-Tsingy_de_Bemaraha_Strict_Nature_Reserve.jpg",
+    "description": "Tsingy de Bemaraha Strict Nature Reserve is a nature reserve located near the western coast of Madagascar in Melaky Region. The area was listed as a UNESCO World Heritage Site in 1990 due to the unique geography, preserved mangrove forests, and wild bird and lemur populations.",
+    "country": {
+      "name": "Madagascar",
+      "code": "MDG"
+    },
+    "continent": "Africa",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_47",
+    "name": "Socotra Island",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Socotra_satview.jpg/330px-Socotra_satview.jpg",
+    "description": "Socotra, locally known as Saqatri, is a Yemeni island in the Indian Ocean. Situated between the Guardafui Channel and the Arabian Sea, it lies near major shipping routes. Socotra is the largest of the six islands in the Socotra archipelago as it comprises around 95% of the landmass of the archipelag...",
+    "country": {
+      "name": "Yemen",
+      "code": "YEM"
+    },
+    "continent": "Asia",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_48",
+    "name": "Sigiriya",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Sigiriya_%28141688197%29.jpeg/320px-Sigiriya_%28141688197%29.jpeg",
+    "description": "Sigiriya or Sinhagiri is an ancient rock fortress located in the northern Matale District near the town of Dambulla in the Central Province, Sri Lanka. It is a site of historical and archaeological significance that is dominated by a massive column of granite approximately 180 m (590 ft) high.",
+    "country": {
+      "name": "Sri Lanka",
+      "code": "LKA"
+    },
+    "continent": "Asia",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_49",
+    "name": "Göbekli Tepe",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/G%C3%B6bekli_Tepe%2C_Urfa.jpg/330px-G%C3%B6bekli_Tepe%2C_Urfa.jpg",
+    "description": "Göbekli Tepe is a Neolithic archaeological site in Upper Mesopotamia (al-Jazira) in modern-day Turkey. The settlement was inhabited from around 9500 BCE to at least 8000 BCE, during the Pre-Pottery Neolithic. It is famous for its large circular structures that contain massive stone pillars – among t...",
+    "country": {
+      "name": "Turkey",
+      "code": "TUR"
+    },
+    "continent": "Europe",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_50",
+    "name": "Nazca Lines",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/L%C3%ADneas_de_Nazca%2C_Nazca%2C_Per%C3%BA%2C_2015-07-29%2C_DD_49.JPG/320px-L%C3%ADneas_de_Nazca%2C_Nazca%2C_Per%C3%BA%2C_2015-07-29%2C_DD_49.JPG",
+    "description": "The Nazca lines are a group of over 700 geoglyphs made in the soil of the Nazca Desert in southern Peru. They were created between 500 BC and 500 AD by people making depressions or shallow incisions in the desert floor, removing pebbles and leaving different-colored dirt exposed. There are two major...",
+    "country": {
+      "name": "Peru",
+      "code": "PER"
+    },
+    "continent": "South America",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_51",
+    "name": "Rapa Nui National Park",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Ahu-Akivi-1.JPG/330px-Ahu-Akivi-1.JPG",
+    "description": "Rapa Nui National Park is a national park and UNESCO World Heritage Site located on Easter Island, Chile. Rapa Nui is the Polynesian name of Easter Island; its Spanish name is Isla de Pascua. The island is located in the southeastern Pacific Ocean, at the southeastern extremity of the Polynesian Tri...",
+    "country": {
+      "name": "Chile",
+      "code": "CHL"
+    },
+    "continent": "South America",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_52",
+    "name": "Salar de Uyuni",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Salar_Uyuni_au01.jpg/320px-Salar_Uyuni_au01.jpg",
+    "description": "Salar de Uyuni is the world's largest salt flat, or playa, at 10,582 square kilometres (4,086 sq mi) in area. It is in the Daniel Campos Province in Potosí in southwest Bolivia, near the crest of the Andes at an elevation of 3,656 m (11,995 ft) above sea level.",
+    "country": {
+      "name": "Bolivia",
+      "code": "BOL"
+    },
+    "continent": "South America",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_53",
+    "name": "Taos Pueblo",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Taos_Pueblo_2017-05-05.jpg/320px-Taos_Pueblo_2017-05-05.jpg",
+    "description": "Taos Pueblo is an ancient pueblo belonging to a Taos-speaking (Tiwa) Native American tribe of Puebloan people. It lies about 1 mile (1.6 km) north of the modern city of Taos, New Mexico. The pueblos are one of the oldest continuously inhabited communities in the United States. Taos Pueblo has been d...",
+    "country": {
+      "name": "United States",
+      "code": "USA"
+    },
+    "continent": "North America",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_54",
+    "name": "Banff National Park",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Moraine_Lake_17092005.jpg/330px-Moraine_Lake_17092005.jpg",
+    "description": "Banff National Park is Canada's first national park, established in 1885 as Rocky Mountains Park. Located in Alberta's Rocky Mountains, 110–180 kilometres (68–112 mi) west of Calgary, Banff encompasses 6,641 square kilometres (2,564 sq mi) of mountainous terrain, with many glaciers and ice fields, d...",
+    "country": {
+      "name": "Canada",
+      "code": "CAN"
+    },
+    "continent": "North America",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_55",
+    "name": "Lake Bled",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Lake_Bled_from_the_Mountain.jpg/320px-Lake_Bled_from_the_Mountain.jpg",
+    "description": "Lake Bled is a lake in the Julian Alps of the Upper Carniolan region of northwestern Slovenia, where it adjoins the town of Bled. The area is a tourist destination. The lake is 35 km (22 mi) from Ljubljana International Airport and 55 km (34 mi) from the capital city, Ljubljana. Lake Bled is 4.2 km ...",
+    "country": {
+      "name": "Slovenia",
+      "code": "SVN"
+    },
+    "continent": "Europe",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_56",
+    "name": "Paro Taktsang",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bhutan-Paro-136-Taktshang-Tigernest-gje.jpg/320px-Bhutan-Paro-136-Taktshang-Tigernest-gje.jpg",
+    "description": "Paro Taktsang, is a sacred Vajrayana Himalayan Buddhist site located in the cliffside of the upper Paro valley in Bhutan. It is one of thirteen Tiger's Nest caves in historical Tibet in which Padmasambhava practiced and taught Vajrayana.",
+    "country": {
+      "name": "Bhutan",
+      "code": "BTN"
+    },
+    "continent": "Asia",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_57",
+    "name": "Svalbard Global Seed Vault",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Svalbard_Global_Seed_Vault_February_2025.jpg/320px-Svalbard_Global_Seed_Vault_February_2025.jpg",
+    "description": "The Svalbard Global Seed Vault is a secure backup facility for the world's crop diversity on the Norwegian island of Spitsbergen in the remote Arctic Svalbard archipelago. The Seed Vault provides long-term storage for duplicates of seeds from around the world, conserved in gene banks. This provides ...",
+    "country": {
+      "name": "Norway",
+      "code": "NOR"
+    },
+    "continent": "Europe",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_58",
+    "name": "Kyaiktiyo Pagoda",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Golden_Rock.JPG/320px-Golden_Rock.JPG",
+    "description": "Kyaiktiyo Pagoda is a well-known Buddhist pilgrimage site in Mon State, Myanmar. It is a small pagoda built on the top of a granite boulder covered with gold leaves pasted on by its male worshippers.",
+    "country": {
+      "name": "Myanmar",
+      "code": "MMR"
+    },
+    "continent": "Asia",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_59",
+    "name": "Avenue of the Baobabs",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Adansonia_grandidieri_Pat_Hooper.jpg/320px-Adansonia_grandidieri_Pat_Hooper.jpg",
+    "description": "The Avenue of the Baobabs, or Alley of the Baobabs, is a prominent group of Grandidier's baobabs lining the unpaved Road No.8 between Morondava and Belon'i Tsiribihina in the Menabe region of western Madagascar. Its striking landscape draws travelers from around the world, making it one of the most ...",
+    "country": {
+      "name": "Madagascar",
+      "code": "MDG"
+    },
+    "continent": "Africa",
+    "difficulty": "veryHard"
+  },
+  {
+    "id": "landmark_60",
+    "name": "Seongsan Ilchulbong",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Seongsan_Ilchulbong_from_the_air.jpg/320px-Seongsan_Ilchulbong_from_the_air.jpg",
+    "description": "Seongsan Ilchulbong (Korean: 성산일출봉), also called Sunrise Peak, is a volcano on eastern Jeju Island, in Seongsan-ri, Seogwipo, Jeju Province, South Korea. It is 182 meters high and has a volcanic crater at the top.",
+    "country": {
+      "name": "South Korea",
+      "code": "KOR"
+    },
+    "continent": "Asia",
+    "difficulty": "veryHard"
+  }
+]

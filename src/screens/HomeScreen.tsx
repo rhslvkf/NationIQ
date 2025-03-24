@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList, Difficulty } from "../types";
 import Card from "../components/Card";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import i18n from "../i18n";
 import { useAppTheme } from "../hooks/useAppTheme";
 
@@ -35,6 +35,10 @@ const HomeScreen: React.FC = () => {
 
   const handleGoToCapitalQuiz = () => {
     navigation.navigate("CapitalQuiz", { difficulty: Difficulty.EASY });
+  };
+
+  const handleGoToLandmarkQuiz = () => {
+    navigation.navigate("LandmarkQuiz", { difficulty: Difficulty.EASY });
   };
 
   const handleGoToSettings = () => {
@@ -84,6 +88,22 @@ const HomeScreen: React.FC = () => {
                 <Text style={[styles.quizTitle, { color: colors.text }]}>{i18n.t("capitalQuiz")}</Text>
                 <Text style={[styles.quizDescription, { color: colors.textSecondary }]}>
                   {i18n.t("capitalQuizDesc")}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
+            </View>
+          </Card>
+
+          {/* 명소 퀴즈 카드 추가 */}
+          <Card style={styles.quizCard} onPress={handleGoToLandmarkQuiz}>
+            <View style={styles.quizCardContent}>
+              <View style={[styles.quizIconContainer, { backgroundColor: COLORS.secondary }]}>
+                <FontAwesome5 name="landmark" size={28} color={COLORS.white} />
+              </View>
+              <View style={styles.quizCardTextContainer}>
+                <Text style={[styles.quizTitle, { color: colors.text }]}>{i18n.t("landmarkQuiz")}</Text>
+                <Text style={[styles.quizDescription, { color: colors.textSecondary }]}>
+                  {i18n.t("landmarkQuizDesc")}
                 </Text>
               </View>
               <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />

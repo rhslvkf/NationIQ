@@ -18,6 +18,7 @@ export default {
   chooseQuiz: "퀴즈 선택",
   flagQuiz: "국기 퀴즈",
   capitalQuiz: "수도 퀴즈",
+  landmarkQuiz: "명소 퀴즈",
 
   // 퀴즈 화면
   quizzes: "퀴즈",
@@ -25,6 +26,8 @@ export default {
   flagQuizDesc: "국가 국기에 대한 지식을 테스트하세요",
   capitalQuizTitle: "수도 퀴즈",
   capitalQuizDesc: "국가 수도에 대한 지식을 테스트하세요",
+  landmarkQuizTitle: "명소 퀴즈",
+  landmarkQuizDesc: "세계 유명 명소에 대한 지식을 테스트하세요",
   selectDifficulty: "난이도 선택",
   selectQuestionCount: "문제 개수 선택",
   selectQuizType: "퀴즈 유형 선택",
@@ -52,6 +55,13 @@ export default {
   mixedQuiz: "혼합 퀴즈",
   whichCapital: "이 국가의 수도는 무엇인가요?",
   whichCountryCapital: "이 수도는 어느 나라의 수도인가요?",
+
+  // 명소 퀴즈
+  landmarkToCountry: "명소 → 국가",
+  landmarkToName: "사진 → 명소 이름",
+  landmarkMixed: "명소 혼합 퀴즈",
+  whichLandmarkCountry: "이 명소({landmark})는 어느 나라에 있나요?",
+  whichLandmarkName: "이 명소의 이름은 무엇인가요?",
 
   // 결과
   quizResult: "퀴즈 결과",

@@ -8,6 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import HomeScreen from "../screens/HomeScreen";
 import FlagQuizScreen from "../screens/FlagQuizScreen";
 import CapitalQuizScreen from "../screens/CapitalQuizScreen";
+import LandmarkQuizScreen from "../screens/LandmarkQuizScreen";
 import QuizResultScreen from "../screens/QuizResultScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 
@@ -27,6 +28,7 @@ const AppNavigation: React.FC = () => {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="FlagQuiz" component={FlagQuizScreen} />
           <Stack.Screen name="CapitalQuiz" component={CapitalQuizScreen} />
+          <Stack.Screen name="LandmarkQuiz" component={LandmarkQuizScreen} />
           <Stack.Screen name="QuizResult" component={QuizResultScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
         </Stack.Navigator>

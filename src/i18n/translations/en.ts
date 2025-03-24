@@ -18,6 +18,7 @@ export default {
   chooseQuiz: "Choose a Quiz",
   flagQuiz: "Flag Quiz",
   capitalQuiz: "Capital Quiz",
+  landmarkQuiz: "Landmark Quiz",
 
   // 퀴즈 화면
   quizzes: "Quizzes",
@@ -25,6 +26,8 @@ export default {
   flagQuizDesc: "Test your knowledge of country flags",
   capitalQuizTitle: "Capital Quiz",
   capitalQuizDesc: "Test your knowledge of country capitals",
+  landmarkQuizTitle: "Landmark Quiz",
+  landmarkQuizDesc: "Test your knowledge of world famous landmarks",
   selectDifficulty: "Select Difficulty",
   selectQuestionCount: "Select Question Count",
   selectQuizType: "Select Quiz Type",
@@ -52,6 +55,13 @@ export default {
   mixedQuiz: "Mixed Quiz",
   whichCapital: "What is the capital of this country?",
   whichCountryCapital: "Which country has this capital city?",
+
+  // 명소 퀴즈
+  landmarkToCountry: "Landmark to Country",
+  landmarkToName: "Photo to Landmark Name",
+  landmarkMixed: "Landmark Mixed Quiz",
+  whichLandmarkCountry: "In which country is this landmark ({landmark})?",
+  whichLandmarkName: "What is the name of this landmark?",
 
   // 결과
   quizResult: "Quiz Result",
