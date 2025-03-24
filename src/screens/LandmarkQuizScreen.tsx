@@ -1,184 +1,161 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View, Text, ScrollView, SafeAreaView, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList, Difficulty, QuizType, LandmarkQuiz, QuizResult } from "../types";
-import { COLORS, SIZES } from "../constants/theme";
-import Header from "../components/Header";
-import Button from "../components/Button";
-import LandmarkQuizCard from "../components/LandmarkQuizCard";
-import DifficultySelector from "../components/DifficultySelector";
-import QuestionCountSelector, { QUESTION_COUNTS, QuestionCount } from "../components/QuestionCountSelector";
 import { generateLandmarkQuiz } from "../services/landmarkService";
+import { Difficulty, LandmarkQuiz, QuizResult, RootStackParamList } from "../types";
+import DifficultySelector from "../components/DifficultySelector";
+import QuestionCountSelector from "../components/QuestionCountSelector";
+import PrimaryButton from "../components/PrimaryButton";
+import LandmarkQuizCard from "../components/LandmarkQuizCard";
+import { COLORS } from "../constants/theme";
 import i18n from "../i18n";
 import { useAppTheme } from "../hooks/useAppTheme";
 
-// RootStackParamList에 LandmarkQuiz가 없으므로 any 타입으로 임시 정의
-type LandmarkQuizScreenNavigationProp = StackNavigationProp<any, "LandmarkQuiz">;
-
-// 명소 퀴즈 타입 선택 컴포넌트
-const LandmarkQuizTypeSelector: React.FC<{
-  onSelectQuizType: (quizType: QuizType) => void;
-  selectedQuizType: QuizType;
-}> = ({ onSelectQuizType, selectedQuizType }) => {
-  const { colors } = useAppTheme();
-
-  const quizTypes = [
-    { type: QuizType.LANDMARK_TO_COUNTRY, label: i18n.t("landmarkToCountry") },
-    { type: QuizType.LANDMARK_TO_NAME, label: i18n.t("landmarkToName") },
-    { type: QuizType.LANDMARK_MIXED, label: i18n.t("landmarkMixed") },
-  ];
-
-  return (
-    <View style={styles.quizTypeContainer}>
-      <Text style={[styles.quizTypeTitle, { color: colors.text }]}>{i18n.t("selectQuizType")}</Text>
-      <View style={styles.quizTypeButtons}>
-        {quizTypes.map((item) => (
-          <Button
-            key={item.type}
-            title={item.label}
-            onPress={() => onSelectQuizType(item.type)}
-            style={[
-              styles.quizTypeButton,
-              { backgroundColor: selectedQuizType === item.type ? colors.primary : colors.card },
-            ]}
-            textStyle={{
-              color: selectedQuizType === item.type ? COLORS.white : colors.text,
-              fontSize: SIZES.bodySmall,
-            }}
-            size="small"
-          />
-        ))}
-      </View>
-    </View>
-  );
-};
+type LandmarkQuizScreenProps = StackNavigationProp<RootStackParamList, "LandmarkQuiz">;
 
 const LandmarkQuizScreen: React.FC = () => {
-  const navigation = useNavigation<LandmarkQuizScreenNavigationProp>();
+  const navigation = useNavigation<LandmarkQuizScreenProps>();
   const { colors } = useAppTheme();
 
-  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.EASY);
-  const [questionCount, setQuestionCount] = useState<QuestionCount>(10);
-  const [quizStarted, setQuizStarted] = useState<boolean>(false);
+  // 퀴즈 환경 설정
+  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+  const [questionCount, setQuestionCount] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [questions, setQuestions] = useState<LandmarkQuiz[]>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [correctAnswers, setCorrectAnswers] = useState<number>(0);
-  const [wrongAnswers, setWrongAnswers] = useState<number>(0);
-  const [quizType, setQuizType] = useState<QuizType>(QuizType.LANDMARK_MIXED);
 
-  const handleGoBack = () => {
-    if (quizStarted) {
-      setQuizStarted(false);
-      setCurrentQuestionIndex(0);
-      setCorrectAnswers(0);
-      setWrongAnswers(0);
-      setSelectedOption(null);
-    } else {
-      navigation.goBack();
-    }
-  };
+  // 퀴즈 데이터와 상태
+  const [quizzes, setQuizzes] = useState<LandmarkQuiz[]>([]);
+  const [currentQuizIndex, setCurrentQuizIndex] = useState<number>(0);
+  const [quizStarted, setQuizStarted] = useState<boolean>(false);
+  const [quizResults, setQuizResults] = useState<QuizResult[]>([]);
 
-  const handleSelectDifficulty = (selectedDifficulty: Difficulty) => {
-    setDifficulty(selectedDifficulty);
-  };
+  // 퀴즈 결과 초기화
+  useEffect(() => {
+    setQuizResults([]);
+    setCurrentQuizIndex(0);
+  }, [quizzes]);
 
-  const handleSelectQuestionCount = (count: QuestionCount) => {
-    setQuestionCount(count);
-  };
-
-  const handleSelectQuizType = (selectedQuizType: QuizType) => {
-    setQuizType(selectedQuizType);
-  };
-
+  // 퀴즈 시작 처리
   const handleStartQuiz = async () => {
     setIsLoading(true);
     try {
-      const quizData = await generateLandmarkQuiz(difficulty, questionCount, quizType);
-      setQuestions(quizData);
+      const generatedQuizzes = await generateLandmarkQuiz(difficulty, questionCount);
+      setQuizzes(generatedQuizzes);
       setQuizStarted(true);
-      setCurrentQuestionIndex(0);
-      setCorrectAnswers(0);
-      setWrongAnswers(0);
-      setSelectedOption(null);
     } catch (error) {
-      console.error("명소 퀴즈 로드 중 오류 발생:", error);
+      console.error("Error starting landmark quiz:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleAnswer = (isCorrect: boolean, answer: string) => {
-    if (isCorrect) {
-      setCorrectAnswers((prev) => prev + 1);
+  // 사용자가 답변 선택 시 처리 (국가와 명소 모두 확인)
+  const handleAnswer = (isCorrectCountry: boolean, isCorrectLandmark: boolean) => {
+    // 현재 퀴즈 가져오기
+    const currentQuiz = quizzes[currentQuizIndex];
+
+    // 답변 결과 저장 (둘 다 맞추어야 정답으로 인정)
+    const isCorrect = isCorrectCountry && isCorrectLandmark;
+
+    // 퀴즈 결과에 추가
+    setQuizResults((prev) => [
+      ...prev,
+      {
+        question: currentQuiz.question,
+        userAnswer: `${isCorrectCountry ? currentQuiz.correctCountry : "오답"} / ${
+          isCorrectLandmark ? currentQuiz.correctLandmark : "오답"
+        }`,
+        correctAnswer: `${currentQuiz.correctCountry} / ${currentQuiz.correctLandmark}`,
+        isCorrect: isCorrect,
+        imageUrl: currentQuiz.imageUrl,
+        quizType: "landmark",
+      },
+    ]);
+
+    // 다음 퀴즈로 이동 또는 결과 화면으로 이동
+    if (currentQuizIndex < quizzes.length - 1) {
+      setTimeout(() => {
+        setCurrentQuizIndex((prev) => prev + 1);
+      }, 1000);
     } else {
-      setWrongAnswers((prev) => prev + 1);
-    }
-
-    setSelectedOption(answer);
-
-    // 다음 질문으로 이동하거나 결과 페이지로 이동
-    setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex((prev) => prev + 1);
-        setSelectedOption(null);
-      } else {
-        // 퀴즈 종료, 결과 페이지로 이동
-        const result: QuizResult = {
-          correctAnswers,
-          wrongAnswers: wrongAnswers + (isCorrect ? 0 : 1),
-          totalQuestions: questions.length,
+      // 모든 퀴즈 완료, 결과 페이지로 이동
+      setTimeout(() => {
+        navigation.navigate("QuizResult", {
+          results: quizResults.concat({
+            question: currentQuiz.question,
+            userAnswer: `${isCorrectCountry ? currentQuiz.correctCountry : "오답"} / ${
+              isCorrectLandmark ? currentQuiz.correctLandmark : "오답"
+            }`,
+            correctAnswer: `${currentQuiz.correctCountry} / ${currentQuiz.correctLandmark}`,
+            isCorrect: isCorrect,
+            imageUrl: currentQuiz.imageUrl,
+            quizType: "landmark",
+          }),
           difficulty,
-          score: 0, // 필요한 경우 계산 로직 추가
-        };
+        });
+      }, 1500);
+    }
+  };
 
-        navigation.navigate("QuizResult", { result });
-      }
-    }, 1500);
+  // 퀴즈 재시작 처리
+  const handleRestartQuiz = () => {
+    setQuizStarted(false);
+    setQuizzes([]);
+    setCurrentQuizIndex(0);
+    setQuizResults([]);
   };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <Header title={i18n.t("landmarkQuizTitle")} showBackButton onBackPress={handleGoBack} style={styles.header} />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={[styles.title, { color: colors.text }]}>{i18n.t("landmarkQuiz")}</Text>
 
-      {quizStarted ? (
-        <View style={styles.quizContainer}>
-          {isLoading ? (
-            <ActivityIndicator size="large" color={colors.primary} />
-          ) : (
-            <LandmarkQuizCard
-              quiz={questions[currentQuestionIndex]}
-              onAnswer={handleAnswer}
-              isLast={currentQuestionIndex === questions.length - 1}
+        {!quizStarted ? (
+          // 퀴즈 설정 화면
+          <View style={styles.setupContainer}>
+            <Text style={[styles.subtitle, { color: colors.textSecondary }]}>{i18n.t("landmarkQuizDescription")}</Text>
+
+            <DifficultySelector selectedDifficulty={difficulty} onSelect={setDifficulty} />
+
+            <QuestionCountSelector count={questionCount} onChange={setQuestionCount} />
+
+            <PrimaryButton
+              title={i18n.t("startQuiz")}
+              onPress={handleStartQuiz}
+              isLoading={isLoading}
+              style={styles.startButton}
             />
-          )}
-        </View>
-      ) : (
-        <ScrollView
-          style={styles.setupContainer}
-          contentContainerStyle={styles.setupContent}
-          showsVerticalScrollIndicator={false}
-        >
-          <Text style={[styles.setupTitle, { color: colors.text }]}>{i18n.t("landmarkQuizDesc")}</Text>
+          </View>
+        ) : (
+          // 퀴즈 진행 화면
+          <View style={styles.quizContainer}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={COLORS.primary} />
+            ) : (
+              <>
+                <View style={styles.progressContainer}>
+                  <Text style={[styles.progressText, { color: colors.textSecondary }]}>
+                    {i18n.t("questionProgress", {
+                      current: currentQuizIndex + 1,
+                      total: quizzes.length,
+                    })}
+                  </Text>
+                </View>
 
-          <DifficultySelector onSelectDifficulty={handleSelectDifficulty} selectedDifficulty={difficulty} />
+                {quizzes.length > 0 && (
+                  <LandmarkQuizCard
+                    quiz={quizzes[currentQuizIndex]}
+                    onAnswer={handleAnswer}
+                    isLast={currentQuizIndex === quizzes.length - 1}
+                  />
+                )}
 
-          <QuestionCountSelector onSelectCount={handleSelectQuestionCount} selectedCount={questionCount} />
-
-          <LandmarkQuizTypeSelector onSelectQuizType={handleSelectQuizType} selectedQuizType={quizType} />
-
-          <Button
-            title={i18n.t("start")}
-            onPress={handleStartQuiz}
-            isLoading={isLoading}
-            style={styles.startButton}
-            size="large"
-          />
-        </ScrollView>
-      )}
+                <PrimaryButton title={i18n.t("restartQuiz")} onPress={handleRestartQuiz} style={styles.restartButton} />
+              </>
+            )}
+          </View>
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -187,47 +164,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    marginBottom: 16,
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginVertical: 16,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  setupContainer: {
+    padding: 16,
   },
   quizContainer: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 16,
+    justifyContent: "center",
   },
-  setupContainer: {
-    flex: 1,
-    padding: 16,
+  progressContainer: {
+    width: "100%",
+    marginBottom: 16,
+    alignItems: "center",
   },
-  setupContent: {
-    paddingBottom: 32,
-  },
-  setupTitle: {
-    fontSize: SIZES.subheader,
-    textAlign: "center",
-    marginBottom: 24,
+  progressText: {
+    fontSize: 16,
+    fontWeight: "500",
   },
   startButton: {
-    marginTop: 32,
+    marginTop: 24,
   },
-  quizTypeContainer: {
-    marginVertical: 16,
-  },
-  quizTypeTitle: {
-    fontSize: SIZES.body,
-    fontWeight: "bold",
-    marginBottom: 12,
-    textAlign: "center",
-  },
-  quizTypeButtons: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  quizTypeButton: {
-    marginBottom: 8,
-    width: "100%",
+  restartButton: {
+    marginTop: 24,
   },
 });
 

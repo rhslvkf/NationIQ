@@ -9,79 +9,145 @@ const { width } = Dimensions.get("window");
 
 interface LandmarkQuizCardProps {
   quiz: LandmarkQuiz;
-  onAnswer: (isCorrect: boolean, answer: string) => void;
+  onAnswer: (isCorrectCountry: boolean, isCorrectLandmark: boolean) => void;
   isLast: boolean;
 }
 
 const LandmarkQuizCard: React.FC<LandmarkQuizCardProps> = ({ quiz, onAnswer, isLast }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedLandmark, setSelectedLandmark] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [answered, setAnswered] = useState<boolean>(false);
   const { colors } = useAppTheme();
 
   useEffect(() => {
-    setSelectedAnswer(null);
+    setSelectedCountry(null);
+    setSelectedLandmark(null);
+    setAnswered(false);
     setIsLoading(true);
   }, [quiz]);
 
-  const handleSelectAnswer = (answer: string) => {
-    if (selectedAnswer) return;
+  // 선택한 답변들이 모두 정답인지 확인
+  const checkAnswers = () => {
+    if (!selectedCountry || !selectedLandmark) return;
 
-    setSelectedAnswer(answer);
-    const isCorrect = answer === quiz.correctAnswer;
+    const isCorrectCountry = selectedCountry === quiz.correctCountry;
+    const isCorrectLandmark = selectedLandmark === quiz.correctLandmark;
+
+    setAnswered(true);
 
     setTimeout(() => {
-      onAnswer(isCorrect, answer);
-    }, 1000);
+      onAnswer(isCorrectCountry, isCorrectLandmark);
+    }, 1500);
   };
 
-  const getOptionStyle = (option: string) => {
-    if (!selectedAnswer) {
-      return styles.option;
+  // 국가 선택 처리
+  const handleSelectCountry = (country: string) => {
+    if (answered) return;
+    setSelectedCountry(country);
+
+    // 명소도 선택되어 있으면 답변 체크
+    if (selectedLandmark) {
+      checkAnswers();
+    }
+  };
+
+  // 명소 선택 처리
+  const handleSelectLandmark = (landmark: string) => {
+    if (answered) return;
+    setSelectedLandmark(landmark);
+
+    // 국가도 선택되어 있으면 답변 체크
+    if (selectedCountry) {
+      checkAnswers();
+    }
+  };
+
+  // 국가 선택지 스타일
+  const getCountryOptionStyle = (option: string) => {
+    if (!answered) {
+      return [
+        styles.option,
+        {
+          borderColor: colors.border,
+          backgroundColor: selectedCountry === option ? colors.primary + "20" : colors.card,
+        },
+      ];
     }
 
-    if (option === quiz.correctAnswer) {
+    if (option === quiz.correctCountry) {
       return [styles.option, { backgroundColor: COLORS.success }];
     }
 
-    if (option === selectedAnswer && selectedAnswer !== quiz.correctAnswer) {
+    if (option === selectedCountry && selectedCountry !== quiz.correctCountry) {
       return [styles.option, { backgroundColor: COLORS.error }];
     }
 
-    return styles.option;
+    return [styles.option, { borderColor: colors.border, backgroundColor: colors.card }];
   };
 
-  const getOptionTextStyle = (option: string) => {
-    if (!selectedAnswer) {
-      return { color: colors.text };
+  // 명소 선택지 스타일
+  const getLandmarkOptionStyle = (option: string) => {
+    if (!answered) {
+      return [
+        styles.option,
+        {
+          borderColor: colors.border,
+          backgroundColor: selectedLandmark === option ? colors.primary + "20" : colors.card,
+        },
+      ];
     }
 
-    if (option === quiz.correctAnswer || (option === selectedAnswer && selectedAnswer === quiz.correctAnswer)) {
+    if (option === quiz.correctLandmark) {
+      return [styles.option, { backgroundColor: COLORS.success }];
+    }
+
+    if (option === selectedLandmark && selectedLandmark !== quiz.correctLandmark) {
+      return [styles.option, { backgroundColor: COLORS.error }];
+    }
+
+    return [styles.option, { borderColor: colors.border, backgroundColor: colors.card }];
+  };
+
+  // 선택지 텍스트 스타일
+  const getOptionTextStyle = (option: string, isCountry: boolean) => {
+    if (!answered) {
+      return { color: (isCountry ? selectedCountry : selectedLandmark) === option ? COLORS.primary : colors.text };
+    }
+
+    const correctOption = isCountry ? quiz.correctCountry : quiz.correctLandmark;
+    const selectedOption = isCountry ? selectedCountry : selectedLandmark;
+
+    if (option === correctOption || (option === selectedOption && selectedOption === correctOption)) {
       return { color: COLORS.white };
     }
 
-    if (option === selectedAnswer) {
+    if (option === selectedOption) {
       return { color: COLORS.white };
     }
 
     return { color: colors.text };
   };
 
+  // 결과 피드백 텍스트
   const getFeedbackText = () => {
-    if (!selectedAnswer) return null;
+    if (!answered) return null;
 
-    const isCorrect = selectedAnswer === quiz.correctAnswer;
+    const isCorrectCountry = selectedCountry === quiz.correctCountry;
+    const isCorrectLandmark = selectedLandmark === quiz.correctLandmark;
 
-    return (
-      <Text style={[styles.feedbackText, { color: isCorrect ? COLORS.success : COLORS.error }]}>
-        {isCorrect ? i18n.t("correct") : i18n.t("wrong")}
-        {!isCorrect && (
-          <Text style={{ color: colors.text }}>
-            {" - "}
-            {quiz.correctAnswer}
-          </Text>
-        )}
-      </Text>
-    );
+    // 둘 다 맞췄을 때
+    if (isCorrectCountry && isCorrectLandmark) {
+      return <Text style={[styles.feedbackText, { color: COLORS.success }]}>{i18n.t("correct")}</Text>;
+    }
+
+    // 하나만 맞췄을 때
+    if (isCorrectCountry || isCorrectLandmark) {
+      return <Text style={[styles.feedbackText, { color: COLORS.warning }]}>{i18n.t("partiallyCorrect")}</Text>;
+    }
+
+    // 둘 다 틀렸을 때
+    return <Text style={[styles.feedbackText, { color: COLORS.error }]}>{i18n.t("wrong")}</Text>;
   };
 
   return (
@@ -99,24 +165,54 @@ const LandmarkQuizCard: React.FC<LandmarkQuizCardProps> = ({ quiz, onAnswer, isL
       <View style={styles.contentContainer}>
         <Text style={[styles.question, { color: colors.text }]}>{quiz.question}</Text>
 
-        <View style={styles.optionsContainer}>
-          {quiz.options.map((option, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[getOptionStyle(option), { borderColor: colors.border }]}
-              onPress={() => handleSelectAnswer(option)}
-              disabled={!!selectedAnswer}
-            >
-              <Text style={[styles.optionText, getOptionTextStyle(option)]}>{option}</Text>
-            </TouchableOpacity>
-          ))}
+        <View style={styles.optionsSection}>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>{i18n.t("selectCountry")}</Text>
+          <View style={styles.optionsContainer}>
+            {quiz.countryOptions.map((option, index) => (
+              <TouchableOpacity
+                key={`country_${index}`}
+                style={getCountryOptionStyle(option)}
+                onPress={() => handleSelectCountry(option)}
+                disabled={answered}
+              >
+                <Text style={[styles.optionText, getOptionTextStyle(option, true)]}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary, marginTop: 16 }]}>
+            {i18n.t("selectLandmark")}
+          </Text>
+          <View style={styles.optionsContainer}>
+            {quiz.landmarkOptions.map((option, index) => (
+              <TouchableOpacity
+                key={`landmark_${index}`}
+                style={getLandmarkOptionStyle(option)}
+                onPress={() => handleSelectLandmark(option)}
+                disabled={answered}
+              >
+                <Text style={[styles.optionText, getOptionTextStyle(option, false)]}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
 
-        {getFeedbackText()}
+        {answered && (
+          <View style={styles.feedbackContainer}>
+            {getFeedbackText()}
 
-        {isLast && selectedAnswer && (
-          <Text style={[styles.lastCard, { color: COLORS.primary }]}>{i18n.t("completed")}</Text>
+            {(selectedCountry !== quiz.correctCountry || selectedLandmark !== quiz.correctLandmark) && (
+              <Text style={[styles.correctAnswerText, { color: colors.text }]}>
+                {i18n.t("correctAnswerIs", {
+                  landmark: quiz.correctLandmark,
+                  country: quiz.correctCountry,
+                })}
+              </Text>
+            )}
+          </View>
         )}
+
+        {isLast && answered && <Text style={[styles.lastCard, { color: COLORS.primary }]}>{i18n.t("completed")}</Text>}
       </View>
     </View>
   );
@@ -158,8 +254,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
   },
-  optionsContainer: {
+  optionsSection: {
     marginVertical: 8,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
+  optionsContainer: {
+    marginVertical: 4,
   },
   option: {
     paddingVertical: 12,
@@ -171,11 +275,19 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 16,
   },
+  feedbackContainer: {
+    marginTop: 16,
+    alignItems: "center",
+  },
   feedbackText: {
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
-    marginTop: 16,
+    marginBottom: 8,
+  },
+  correctAnswerText: {
+    textAlign: "center",
+    fontSize: 14,
   },
   lastCard: {
     textAlign: "center",

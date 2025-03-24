@@ -85,16 +85,21 @@ export interface Landmark {
   difficulty: string;
 }
 
-// 명소 퀴즈를 위한 타입 정의
+/**
+ * 명소 퀴즈 인터페이스 - 국가와 명소명을 동시에 맞추는 퀴즈를 위해 업데이트
+ */
 export interface LandmarkQuiz {
   id: string;
-  question: string; // 질문
-  imageUrl: string; // 명소 이미지 URL
-  options: string[]; // 보기 옵션들
-  correctAnswer: string; // 정답
-  quizType: QuizType; // 퀴즈 타입
-  landmarkName: string; // 명소 이름
-  countryName: string; // 국가 이름
+  imageUrl: string;
+  question: string;
+  landmarkName: string;
+  countryName: string;
+  description?: string;
+  countryOptions: string[]; // 국가 선택지 목록
+  landmarkOptions: string[]; // 명소 선택지 목록
+  correctCountry: string; // 정답 국가
+  correctLandmark: string; // 정답 명소
+  difficulty: string;
 }
 
 // 네비게이션 파라미터 타입

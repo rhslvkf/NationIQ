@@ -3,10 +3,10 @@
  * 로컬 명소 데이터를 활용하여 다양한 명소 퀴즈를 생성합니다.
  */
 
-import { Difficulty, LandmarkQuiz, QuizType } from "../types";
+import { LandmarkQuiz, Difficulty } from "../types";
+import { localLandmarkData } from "../data/localLandmarkData";
 import i18n from "../i18n";
-import * as landmarkData from "../data/localLandmarkData";
-import difficultyLevels from "../config/difficultyLevels";
+import { getRandomNumbers } from "../utils/random";
 
 // 배열을 무작위로 섞는 유틸리티 함수
 const shuffleArray = <T>(array: T[]): T[] => {
@@ -35,92 +35,99 @@ const getDifficultyString = (difficulty: Difficulty): string => {
 };
 
 /**
- * 명소 -> 국가 또는 명소 -> 명소명 퀴즈 생성
+ * 명소 퀴즈 데이터를 생성합니다.
+ * 명소 사진을 보고 해당 명소가 위치한 국가와 명소 이름을 모두 맞추는 퀴즈입니다.
+ *
  * @param difficulty 난이도
- * @param questionCount 문제 수
- * @param quizType 퀴즈 타입 (LANDMARK_TO_COUNTRY, LANDMARK_TO_NAME, LANDMARK_MIXED)
+ * @param count 문제 개수
+ * @returns 생성된 퀴즈 배열
  */
-export const generateLandmarkQuiz = async (
-  difficulty: Difficulty,
-  questionCount: number = 10,
-  quizType: QuizType
-): Promise<LandmarkQuiz[]> => {
-  try {
-    // 난이도에 따른 필터링
-    const difficultyString = getDifficultyString(difficulty);
-    let landmarks = landmarkData.getLandmarksByDifficulty(difficultyString);
-
-    // 필터링된 명소가 충분하지 않을 경우 다른 난이도의 명소를 추가로 사용
-    if (landmarks.length < questionCount) {
-      const allLandmarks = landmarkData.getAllLandmarks();
-      const remainingLandmarks = allLandmarks.filter((landmark) => landmark.difficulty !== difficultyString);
-      landmarks = [...landmarks, ...shuffleArray(remainingLandmarks).slice(0, questionCount - landmarks.length)];
+export function generateLandmarkQuiz(difficulty: Difficulty, count: number): LandmarkQuiz[] {
+  // 해당 난이도의 명소 데이터 필터링
+  const filteredLandmarks = localLandmarkData.filter((landmark) => {
+    if (difficulty === "easy") {
+      return landmark.difficulty === "easy";
+    } else if (difficulty === "medium") {
+      return landmark.difficulty === "easy" || landmark.difficulty === "medium";
+    } else {
+      return true; // 어려움 난이도는 모든 명소 포함
     }
+  });
 
-    // 랜덤으로 명소 선택
-    const shuffledLandmarks = shuffleArray(landmarks);
-    const selectedLandmarks = shuffledLandmarks.slice(0, questionCount);
-
-    // 퀴즈 생성
-    const quizzes: LandmarkQuiz[] = [];
-    const allLandmarks = landmarkData.getAllLandmarks();
-
-    for (let i = 0; i < selectedLandmarks.length; i++) {
-      const landmark = selectedLandmarks[i];
-
-      // 퀴즈 타입 결정 (혼합인 경우 랜덤)
-      const currentQuizType =
-        quizType === QuizType.LANDMARK_MIXED
-          ? Math.random() > 0.5
-            ? QuizType.LANDMARK_TO_COUNTRY
-            : QuizType.LANDMARK_TO_NAME
-          : quizType;
-
-      // 퀴즈 생성
-      let question: string;
-      let correctAnswer: string;
-      let options: string[] = [];
-
-      if (currentQuizType === QuizType.LANDMARK_TO_COUNTRY) {
-        // 명소 -> 국가 퀴즈
-        question = i18n.t("whichLandmarkCountry", { landmark: landmark.name });
-        correctAnswer = landmark.country.name;
-
-        // 정답 외의 3개 국가 선택 (다른 대륙의 국가들을 포함하여 다양성 확보)
-        const wrongOptions = shuffleArray(
-          allLandmarks.filter((l) => l.country.code !== landmark.country.code).map((l) => l.country.name)
-        ).slice(0, 3);
-
-        options = shuffleArray([correctAnswer, ...wrongOptions]);
-      } else {
-        // 명소 -> 명소명 퀴즈
-        question = i18n.t("whichLandmarkName");
-        correctAnswer = landmark.name;
-
-        // 정답 외의 3개 명소 선택
-        const wrongOptions = shuffleArray(allLandmarks.filter((l) => l.id !== landmark.id).map((l) => l.name)).slice(
-          0,
-          3
-        );
-
-        options = shuffleArray([correctAnswer, ...wrongOptions]);
-      }
-
-      quizzes.push({
-        id: `landmark_quiz_${i + 1}`,
-        question,
-        imageUrl: landmark.imageUrl,
-        options,
-        correctAnswer,
-        quizType: currentQuizType,
-        landmarkName: landmark.name,
-        countryName: landmark.country.name,
-      });
-    }
-
-    return quizzes;
-  } catch (error) {
-    console.error("명소 퀴즈 생성 중 오류 발생:", error);
-    throw error;
+  if (filteredLandmarks.length < count) {
+    // 충분한 명소 데이터가 없을 경우 있는 만큼만 사용
+    count = filteredLandmarks.length;
   }
-};
+
+  // 무작위로 명소 선택
+  const selectedIndices = getRandomNumbers(0, filteredLandmarks.length - 1, count);
+  const selectedLandmarks = selectedIndices.map((index) => filteredLandmarks[index]);
+
+  // 국가 목록 준비 (선택지로 사용)
+  const allCountries = [...new Set(localLandmarkData.map((landmark) => landmark.country))];
+
+  // 퀴즈 생성
+  const quizzes: LandmarkQuiz[] = selectedLandmarks.map((landmark) => {
+    // 현재 언어에 맞는 명소명과 국가명 설정
+    const currentLang = i18n.locale.split("-")[0];
+    const landmarkName = currentLang === "ko" ? landmark.nameKo : landmark.nameEn;
+    const countryName = currentLang === "ko" ? landmark.countryKo : landmark.countryEn;
+
+    // 현재 언어에 맞는 설명 설정
+    const description = currentLang === "ko" ? landmark.descriptionKo : landmark.descriptionEn;
+
+    // 현재 언어에 맞는 명소 목록 생성 (선택지로 사용)
+    const allLandmarkNames = [
+      ...new Set(localLandmarkData.map((item) => (currentLang === "ko" ? item.nameKo : item.nameEn))),
+    ];
+
+    // 국가 선택지 생성 (정답 + 3개의 오답)
+    let countryOptions = [countryName];
+
+    // 현재 언어에 맞는 국가 목록 (선택지로 사용)
+    const otherCountries = [
+      ...new Set(localLandmarkData.map((item) => (currentLang === "ko" ? item.countryKo : item.countryEn))),
+    ].filter((c) => c !== countryName);
+
+    // 무작위로 3개의 다른 국가 선택
+    const randomCountryIndices = getRandomNumbers(0, otherCountries.length - 1, 3);
+    const wrongCountries = randomCountryIndices.map((index) => otherCountries[index]);
+    countryOptions = [...countryOptions, ...wrongCountries];
+
+    // 선택지 순서 섞기
+    countryOptions = countryOptions.sort(() => Math.random() - 0.5);
+
+    // 명소 이름 선택지 생성 (정답 + 3개의 오답)
+    let landmarkOptions = [landmarkName];
+
+    // 정답이 아닌 다른 명소들
+    const otherLandmarks = allLandmarkNames.filter((name) => name !== landmarkName);
+
+    // 무작위로 3개의 다른 명소 선택
+    const randomLandmarkIndices = getRandomNumbers(0, otherLandmarks.length - 1, 3);
+    const wrongLandmarks = randomLandmarkIndices.map((index) => otherLandmarks[index]);
+    landmarkOptions = [...landmarkOptions, ...wrongLandmarks];
+
+    // 선택지 순서 섞기
+    landmarkOptions = landmarkOptions.sort(() => Math.random() - 0.5);
+
+    // 언어에 맞는 질문 생성
+    const question = i18n.t("landmarkQuizQuestion");
+
+    return {
+      id: landmark.id,
+      imageUrl: landmark.imageUrl,
+      landmarkName: landmarkName,
+      countryName: countryName,
+      description: description,
+      question: question,
+      countryOptions: countryOptions,
+      landmarkOptions: landmarkOptions,
+      correctCountry: countryName,
+      correctLandmark: landmarkName,
+      difficulty: landmark.difficulty,
+    };
+  });
+
+  return quizzes;
+}
