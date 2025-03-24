@@ -11,6 +11,9 @@ export default {
   retry: "다시 시도",
   quit: "종료",
   quitQuizConfirmation: "퀴즈를 종료하시겠습니까? 현재 진행 상황은 저장되지 않습니다.",
+  quizLoadError: "퀴즈를 불러오는 중 오류가 발생했습니다.",
+  insufficientCountryData: "현재 난이도에서 충분한 국가 데이터를 찾을 수 없습니다. 다른 난이도를 선택해 주세요.",
+  incompleteCountryData: "일부 국가 데이터가 불완전하여 퀴즈를 생성할 수 없습니다. 다시 시도해 주세요.",
 
   // 홈 화면
   home: "홈",
@@ -19,6 +22,7 @@ export default {
   flagQuiz: "국기 퀴즈",
   capitalQuiz: "수도 퀴즈",
   landmarkQuiz: "명소 퀴즈",
+  areaPopulationQuiz: "면적/인구 퀴즈",
 
   // 퀴즈 화면
   quizzes: "퀴즈",
@@ -31,6 +35,11 @@ export default {
   selectDifficulty: "난이도 선택",
   selectQuestionCount: "문제 개수 선택",
   selectQuizType: "퀴즈 유형 선택",
+  selectProgressMode: "진행 방식 선택",
+  autoProgress: "자동 진행",
+  autoProgressDesc: "정답 선택 후 자동으로 다음 문제로 넘어갑니다",
+  manualProgress: "수동 진행",
+  manualProgressDesc: "정답 확인 후 다음 문제 버튼을 눌러 진행합니다",
   questions: "문제",
   quickQuiz: "빠른 퀴즈",
   standardQuiz: "표준 퀴즈",
@@ -97,4 +106,22 @@ export default {
   darkMode: "다크 모드",
   about: "정보",
   version: "버전",
+
+  // 면적/인구 퀴즈
+  areaPopulationQuizTitle: "면적/인구 퀴즈",
+  areaPopulationQuizDesc: "국가의 면적과 인구에 대한 지식을 테스트하세요",
+  singleChoice: "단일 선택",
+  orderSelection: "순서 선택",
+  areaQuiz: "면적 퀴즈",
+  populationQuiz: "인구 퀴즈",
+  largestArea: "가장 넓은 국가는?",
+  smallestArea: "가장 작은 국가는?",
+  secondLargestArea: "두 번째로 넓은 국가는?",
+  thirdLargestArea: "세 번째로 넓은 국가는?",
+  largestPopulation: "가장 인구가 많은 국가는?",
+  smallestPopulation: "가장 인구가 적은 국가는?",
+  secondLargestPopulation: "두 번째로 인구가 많은 국가는?",
+  thirdLargestPopulation: "세 번째로 인구가 많은 국가는?",
+  orderByArea: "면적이 넓은 순서대로 선택하세요",
+  orderByPopulation: "인구가 많은 순서대로 선택하세요",
 };

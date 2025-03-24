@@ -121,7 +121,11 @@ const QuizResultScreen: React.FC = () => {
     const previousScreen = navigation
       .getState()
       .routes.find(
-        (route) => route.name === "FlagQuiz" || route.name === "CapitalQuiz" || route.name === "LandmarkQuiz"
+        (route) =>
+          route.name === "FlagQuiz" ||
+          route.name === "CapitalQuiz" ||
+          route.name === "LandmarkQuiz" ||
+          route.name === "AreaPopulationQuiz"
       );
 
     if (previousScreen) {
@@ -129,6 +133,8 @@ const QuizResultScreen: React.FC = () => {
         navigation.navigate("CapitalQuiz", { difficulty });
       } else if (previousScreen.name === "LandmarkQuiz") {
         navigation.navigate("LandmarkQuiz", { difficulty });
+      } else if (previousScreen.name === "AreaPopulationQuiz") {
+        navigation.navigate("AreaPopulationQuiz", { difficulty });
       } else {
         // FlagQuiz에서 온 경우
         navigation.navigate("FlagQuiz", { difficulty });
