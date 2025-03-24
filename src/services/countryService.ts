@@ -2,41 +2,14 @@ import { Country, Difficulty, Question, QuizType, CapitalQuiz } from "../types";
 import i18n from "../i18n";
 import difficultyLevels from "../config/difficultyLevels";
 import capitalTranslations from "../config/capitalTranslations";
+// API 대신 로컬 데이터 모듈을 import
+import { fetchAllCountries, fetchCountriesByRegion } from "../data/localCountryData";
 
-// API URL
-const BASE_URL = "https://restcountries.com/v3.1";
+// API URL 관련 코드는 더 이상 필요 없음
+// const BASE_URL = "https://restcountries.com/v3.1";
 
-// 모든 국가 정보를 가져오는 함수
-export const fetchAllCountries = async (): Promise<Country[]> => {
-  try {
-    const response = await fetch(
-      `${BASE_URL}/all?fields=name,cca2,cca3,flags,capital,region,subregion,population,continents,translations`
-    );
-    if (!response.ok) {
-      throw new Error("국가 정보를 불러오는데 실패했습니다.");
-    }
-    const data: Country[] = await response.json();
-    return data;
-  } catch (error) {
-    console.error("국가 정보 가져오기 오류:", error);
-    throw error;
-  }
-};
-
-// 대륙별 국가 정보를 가져오는 함수
-export const fetchCountriesByRegion = async (region: string): Promise<Country[]> => {
-  try {
-    const response = await fetch(`${BASE_URL}/region/${region}?fields=name,flags,population,translations`);
-    if (!response.ok) {
-      throw new Error(`${region} 지역의 국가 정보를 불러오는데 실패했습니다.`);
-    }
-    const data: Country[] = await response.json();
-    return data;
-  } catch (error) {
-    console.error(`${region} 지역 국가 정보 가져오기 오류:`, error);
-    throw error;
-  }
-};
+// 로컬 데이터 모듈에서 이미 fetchAllCountries와 fetchCountriesByRegion 함수를 제공하므로
+// 여기서 함수 정의를 제거하고 import 사용
 
 // 언어 코드를 API 형식에 맞게 변환
 const getLanguageCodeForAPI = (locale: string): string => {
@@ -77,7 +50,23 @@ const getTranslatedCapitalName = (capitalName: string, locale: string): string =
   return capitalName;
 };
 
-// 난이도에 따라 퀴즈 문제 생성
+// 배열을 무작위로 섞는 유틸리티 함수
+const shuffleArray = <T>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
+// 정답 외에 무작위 국가 선택
+const getRandomCountries = (countries: Country[], excludeCountry: string, count: number): Country[] => {
+  const filteredCountries = countries.filter((c) => c.name.common !== excludeCountry);
+  return shuffleArray(filteredCountries).slice(0, count);
+};
+
+// 난이도에 따라 국기 퀴즈 문제 생성 (로직은 유지, API 호출만 로컬 데이터로 변경)
 export const generateFlagQuiz = async (difficulty: Difficulty, count: number = 10): Promise<Question[]> => {
   try {
     let countries = await fetchAllCountries();
@@ -163,30 +152,14 @@ export const generateFlagQuiz = async (difficulty: Difficulty, count: number = 1
   }
 };
 
-// 배열을 무작위로 섞는 유틸리티 함수
-const shuffleArray = <T>(array: T[]): T[] => {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-  }
-  return newArray;
-};
-
-// 정답 외에 무작위 국가 선택
-const getRandomCountries = (countries: Country[], excludeCountry: string, count: number): Country[] => {
-  const filteredCountries = countries.filter((c) => c.name.common !== excludeCountry);
-  return shuffleArray(filteredCountries).slice(0, count);
-};
-
-// 수도 퀴즈 생성 함수
+// 수도 퀴즈 생성 함수 (API 호출을 로컬 데이터로 변경)
 export const generateCapitalQuiz = async (
   difficulty: Difficulty,
   questionCount: number,
   quizType: QuizType
 ): Promise<CapitalQuiz[]> => {
   try {
-    // 모든 국가 정보 가져오기
+    // 로컬 데이터에서 국가 정보 가져오기
     const countries = await fetchAllCountries();
     const currentLocale = i18n.locale; // 현재 설정된 언어
 
@@ -232,30 +205,32 @@ export const generateCapitalQuiz = async (
       ];
     }
 
-    // 랜덤으로 questionCount 수만큼 국가 선택
+    // 랜덤으로 count 수만큼 국가 선택
     const shuffledCountries = shuffleArray(filteredCountries);
     const selectedCountries = shuffledCountries.slice(0, questionCount);
 
-    // 퀴즈 문제 생성
-    const quizzes: CapitalQuiz[] = [];
+    // 퀴즈 타입 처리
+    let quizzes: CapitalQuiz[] = [];
 
-    for (const country of selectedCountries) {
+    for (let i = 0; i < selectedCountries.length; i++) {
+      const country = selectedCountries[i];
+
+      // 사용할 퀴즈 타입 결정 (mixed인 경우 랜덤)
+      const currentQuizType =
+        quizType === QuizType.MIXED
+          ? Math.random() > 0.5
+            ? QuizType.COUNTRY_TO_CAPITAL
+            : QuizType.CAPITAL_TO_COUNTRY
+          : quizType;
+
+      // 국가명과 수도명 (번역 적용)
       const countryName = getTranslatedCountryName(country, currentLocale);
-      const rawCapitalName = country.capital![0];
-      // 수도 이름 번역 적용
+      const rawCapitalName = country.capital![0]; // 이미 capital이 있는 국가만 필터링함
       const capitalName = getTranslatedCapitalName(rawCapitalName, currentLocale);
 
-      // 타입에 따른 문제 생성
-      let currentQuizType = quizType;
-
-      // 혼합 유형인 경우 랜덤하게 결정
-      if (quizType === QuizType.MIXED) {
-        currentQuizType = Math.random() > 0.5 ? QuizType.COUNTRY_TO_CAPITAL : QuizType.CAPITAL_TO_COUNTRY;
-      }
-
-      // 정답과 오답 4개 생성 (총 4개 선택지)
-      let question = "";
-      let correctAnswer = "";
+      // 질문 및 정답 설정
+      let question: string;
+      let correctAnswer: string;
       let optionPool: string[] = [];
 
       if (currentQuizType === QuizType.COUNTRY_TO_CAPITAL) {
