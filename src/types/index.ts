@@ -24,6 +24,7 @@ export interface Country {
   region?: string;
   subregion?: string;
   population: number;
+  area?: number; // 면적(km²)
   continents?: string[];
   translations?: {
     [languageCode: string]: {
@@ -69,6 +70,24 @@ export enum QuizType {
   MIXED = "MIXED", // 혼합
 }
 
+// 면적/인구 퀴즈 타입 열거형
+export enum AreaPopulationQuizType {
+  SINGLE_CHOICE = "SINGLE_CHOICE", // 단일 선택 (가장 큰/작은 국가)
+  ORDER_SELECTION = "ORDER_SELECTION", // 순서 선택 (큰/작은 순서대로)
+}
+
+// 면적/인구 퀴즈 데이터 타입
+export enum AreaPopulationDataType {
+  AREA = "AREA", // 면적
+  POPULATION = "POPULATION", // 인구
+}
+
+// 퀴즈 자동 진행 설정 타입
+export enum QuizProgressMode {
+  AUTO = "AUTO", // 자동으로 다음 문제로 넘어감
+  MANUAL = "MANUAL", // 수동으로 다음 문제 버튼 누름
+}
+
 // 수도 퀴즈를 위한 타입 정의
 export interface CapitalQuiz {
   question: string; // 질문 (국가 이름 또는 수도 이름)
@@ -77,6 +96,22 @@ export interface CapitalQuiz {
   quizType: QuizType; // 퀴즈 타입
   countryName?: string; // 국가 이름 (UI 표시용)
   capitalName?: string; // 수도 이름 (UI 표시용)
+}
+
+// 면적/인구 퀴즈를 위한 타입 정의
+export interface AreaPopulationQuiz {
+  question: string; // 질문
+  options: string[]; // 국가 이름 (문제 옵션)
+  correctAnswer: string | string[]; // 정답 (단일 선택 또는 순서 배열)
+  dataType: AreaPopulationDataType; // 면적 또는 인구
+  quizType: AreaPopulationQuizType; // 퀴즈 타입 (단일 선택 또는 순서 선택)
+  optionDetails?: {
+    // 선택지에 대한 추가 정보 (UI 표시용)
+    [countryName: string]: {
+      area?: number;
+      population?: number;
+    };
+  };
 }
 
 // 다국어 명소 이름 인터페이스
@@ -118,6 +153,7 @@ export type RootStackParamList = {
   FlagQuiz: { difficulty?: Difficulty };
   CapitalQuiz: { difficulty?: Difficulty };
   LandmarkQuiz: { difficulty?: Difficulty };
+  AreaPopulationQuiz: { difficulty?: Difficulty };
   QuizResult: { result: QuizResult };
   Settings: undefined;
 };

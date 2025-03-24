@@ -11,14 +11,19 @@ export default {
   retry: "Retry",
   quit: "Quit",
   quitQuizConfirmation: "Are you sure you want to quit the quiz? Your current progress will not be saved.",
+  quizLoadError: "An error occurred while loading the quiz.",
+  insufficientCountryData:
+    "Not enough country data available for the current difficulty. Please select a different difficulty level.",
+  incompleteCountryData: "Some country data is incomplete. Please try again.",
 
   // 홈 화면
   home: "Home",
   welcome: "Welcome to NationIQ",
-  chooseQuiz: "Choose a Quiz",
+  chooseQuiz: "Choose Quiz",
   flagQuiz: "Flag Quiz",
   capitalQuiz: "Capital Quiz",
   landmarkQuiz: "Landmark Quiz",
+  areaPopulationQuiz: "Area/Population Quiz",
 
   // 퀴즈 화면
   quizzes: "Quizzes",
@@ -31,6 +36,11 @@ export default {
   selectDifficulty: "Select Difficulty",
   selectQuestionCount: "Select Question Count",
   selectQuizType: "Select Quiz Type",
+  selectProgressMode: "Select Progress Mode",
+  autoProgress: "Auto Progress",
+  autoProgressDesc: "Automatically move to the next question after selecting an answer",
+  manualProgress: "Manual Progress",
+  manualProgressDesc: "Press the next question button after reviewing the answer",
   questions: "Questions",
   quickQuiz: "Quick quiz",
   standardQuiz: "Standard quiz",
@@ -97,4 +107,22 @@ export default {
   darkMode: "Dark Mode",
   about: "About",
   version: "Version",
+
+  // Area/Population Quiz
+  areaPopulationQuizTitle: "Area/Population Quiz",
+  areaPopulationQuizDesc: "Test your knowledge about countries' areas and populations",
+  singleChoice: "Single Choice",
+  orderSelection: "Order Selection",
+  areaQuiz: "Area Quiz",
+  populationQuiz: "Population Quiz",
+  largestArea: "Which country has the largest area?",
+  smallestArea: "Which country has the smallest area?",
+  secondLargestArea: "Which country has the second largest area?",
+  thirdLargestArea: "Which country has the third largest area?",
+  largestPopulation: "Which country has the largest population?",
+  smallestPopulation: "Which country has the smallest population?",
+  secondLargestPopulation: "Which country has the second largest population?",
+  thirdLargestPopulation: "Which country has the third largest population?",
+  orderByArea: "Select countries in order of largest area",
+  orderByPopulation: "Select countries in order of largest population",
 };

@@ -1,4 +1,13 @@
-import { Country, Difficulty, Question, QuizType, CapitalQuiz } from "../types";
+import {
+  Country,
+  Difficulty,
+  Question,
+  QuizType,
+  CapitalQuiz,
+  AreaPopulationQuiz,
+  AreaPopulationQuizType,
+  AreaPopulationDataType,
+} from "../types";
 import i18n from "../i18n";
 import difficultyLevels from "../config/difficultyLevels";
 import capitalTranslations from "../config/capitalTranslations";
@@ -25,6 +34,12 @@ const getLanguageCodeForAPI = (locale: string): string => {
 
 // 국가명 번역 가져오기
 const getTranslatedCountryName = (country: Country, locale: string): string => {
+  // country가 undefined인 경우 처리
+  if (!country || !country.name) {
+    console.warn("유효하지 않은 국가 데이터:", country);
+    return "알 수 없는 국가";
+  }
+
   const apiLangCode = getLanguageCodeForAPI(locale);
 
   // 해당 언어의 번역이 있으면 사용
@@ -269,6 +284,298 @@ export const generateCapitalQuiz = async (
     return quizzes;
   } catch (error) {
     console.error("수도 퀴즈 생성 중 오류 발생:", error);
+    throw error;
+  }
+};
+
+// 면적/인구 퀴즈 생성 함수
+export const generateAreaPopulationQuiz = async (
+  difficulty: Difficulty,
+  questionCount: number,
+  quizType: AreaPopulationQuizType
+): Promise<AreaPopulationQuiz[]> => {
+  try {
+    // 로컬 데이터에서 국가 정보 가져오기
+    const countries = await fetchAllCountries();
+    const currentLocale = i18n.locale; // 현재 설정된 언어
+
+    // 난이도에 맞는 국가 코드(cca3) 목록 가져오기
+    let difficultyCountryCodes: string[] = [];
+
+    switch (difficulty) {
+      case Difficulty.EASY:
+        difficultyCountryCodes = difficultyLevels.easy;
+        break;
+      case Difficulty.MEDIUM:
+        difficultyCountryCodes = difficultyLevels.medium;
+        break;
+      case Difficulty.HARD:
+        difficultyCountryCodes = difficultyLevels.hard;
+        break;
+      case Difficulty.VERY_HARD:
+        difficultyCountryCodes = difficultyLevels.veryHard;
+        break;
+      default:
+        // 기본값으로 모든 난이도 포함
+        difficultyCountryCodes = [
+          ...difficultyLevels.easy,
+          ...difficultyLevels.medium,
+          ...difficultyLevels.hard,
+          ...difficultyLevels.veryHard,
+        ];
+    }
+
+    // 난이도에 맞는 국가 중 필요한 정보(면적, 인구, 이름, 번역)가 있는 국가만 필터링
+    let validCountriesForDifficulty = countries.filter(
+      (country) =>
+        difficultyCountryCodes.includes(country.cca3) &&
+        country.area !== undefined &&
+        country.population !== undefined &&
+        country.name !== undefined &&
+        country.translations !== undefined
+    );
+
+    // 선택된 난이도에 국가가 충분하지 않으면 다른 난이도에서 추가
+    if (validCountriesForDifficulty.length < questionCount * 4) {
+      console.warn(`${difficulty} 난이도에 충분한 국가 데이터가 없어 다른 난이도의 국가를 추가합니다.`);
+
+      // 다른 난이도의 국가 코드
+      let otherDifficultyCountryCodes: string[] = [];
+
+      // 현재 난이도보다 낮은 난이도부터 채우기
+      if (difficulty === Difficulty.VERY_HARD) {
+        otherDifficultyCountryCodes.push(...difficultyLevels.hard);
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.medium);
+        }
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.easy);
+        }
+      } else if (difficulty === Difficulty.HARD) {
+        otherDifficultyCountryCodes.push(...difficultyLevels.medium);
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.easy);
+        }
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.veryHard);
+        }
+      } else if (difficulty === Difficulty.MEDIUM) {
+        otherDifficultyCountryCodes.push(...difficultyLevels.easy);
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.hard);
+        }
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.veryHard);
+        }
+      } else if (difficulty === Difficulty.EASY) {
+        otherDifficultyCountryCodes.push(...difficultyLevels.medium);
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.hard);
+        }
+        if (validCountriesForDifficulty.length + otherDifficultyCountryCodes.length < questionCount * 4) {
+          otherDifficultyCountryCodes.push(...difficultyLevels.veryHard);
+        }
+      }
+
+      // 다른 난이도에서 추가 국가 필터링
+      const remainingValidCountries = countries.filter(
+        (country) =>
+          otherDifficultyCountryCodes.includes(country.cca3) &&
+          !validCountriesForDifficulty.some((c) => c.cca3 === country.cca3) &&
+          country.area !== undefined &&
+          country.population !== undefined &&
+          country.name !== undefined &&
+          country.translations !== undefined
+      );
+
+      // 국가 데이터 추가
+      validCountriesForDifficulty = [
+        ...validCountriesForDifficulty,
+        ...shuffleArray(remainingValidCountries).slice(0, questionCount * 4 - validCountriesForDifficulty.length),
+      ];
+    }
+
+    // 여전히 충분한 국가가 없으면 오류 발생
+    if (validCountriesForDifficulty.length < 4) {
+      throw new Error("충분한 국가 데이터가 없어 퀴즈를 생성할 수 없습니다.");
+    }
+
+    // 국가 데이터 섞기
+    const shuffledCountries = shuffleArray(validCountriesForDifficulty);
+
+    const quizzes: AreaPopulationQuiz[] = [];
+
+    for (let i = 0; i < questionCount; i++) {
+      // 각 퀴즈에 사용할 4개의 국가 선택 (같은 난이도 내에서만)
+      const quizCountries = shuffledCountries.slice(i * 4, i * 4 + 4);
+
+      // 선택된 국가가 4개 미만이면 중복 허용하여 더 채우기
+      if (quizCountries.length < 4) {
+        const additionalCountries = shuffleArray(validCountriesForDifficulty)
+          .filter((country) => !quizCountries.includes(country))
+          .slice(0, 4 - quizCountries.length);
+
+        quizCountries.push(...additionalCountries);
+      }
+
+      // 여전히 4개 미만이면 오류 발생
+      if (quizCountries.length < 4) {
+        throw new Error("충분한 국가 데이터가 없어 퀴즈를 생성할 수 없습니다.");
+      }
+
+      // 면적과 인구 중 랜덤으로 선택
+      const dataType = Math.random() > 0.5 ? AreaPopulationDataType.AREA : AreaPopulationDataType.POPULATION;
+
+      // 각 국가가 필요한 모든 속성을 가지고 있는지 재확인
+      const validSelectedCountries = quizCountries.filter(
+        (country) =>
+          country &&
+          country.name &&
+          country.translations &&
+          country.area !== undefined &&
+          country.population !== undefined
+      );
+
+      if (validSelectedCountries.length < 4) {
+        console.error(
+          "선택된 국가 중 일부에 필요한 데이터가 없습니다:",
+          quizCountries.filter((c) => !validSelectedCountries.includes(c))
+        );
+        throw new Error("일부 국가 데이터가 불완전하여 퀴즈를 생성할 수 없습니다.");
+      }
+
+      // 선택된 국가들의 번역된 이름
+      const countryOptions = validSelectedCountries.map((country) => {
+        try {
+          return getTranslatedCountryName(country, currentLocale);
+        } catch (error) {
+          console.error("국가명 번역 중 오류 발생:", error, country);
+          return country.name.common || "알 수 없는 국가";
+        }
+      });
+
+      // 옵션 상세 정보를 위한 객체 (UI 표시용)
+      const optionDetails: AreaPopulationQuiz["optionDetails"] = {};
+
+      // 각 국가의 면적 또는 인구 데이터 저장
+      validSelectedCountries.forEach((country) => {
+        const countryName = getTranslatedCountryName(country, currentLocale);
+        optionDetails[countryName] = {
+          area: country.area,
+          population: country.population,
+        };
+      });
+
+      if (quizType === AreaPopulationQuizType.SINGLE_CHOICE) {
+        // 단일 선택 퀴즈 생성
+        let question = "";
+        let correctAnswer = "";
+
+        if (dataType === AreaPopulationDataType.AREA) {
+          // 면적 관련 문제 생성
+          const questionType = Math.floor(Math.random() * 5); // 0-4
+
+          // 면적 순으로 정렬
+          const sortedByArea = [...validSelectedCountries].sort((a, b) => (b.area || 0) - (a.area || 0));
+
+          switch (questionType) {
+            case 0: // 가장 넓은 국가
+              question = i18n.t("largestArea");
+              correctAnswer = getTranslatedCountryName(sortedByArea[0], currentLocale);
+              break;
+            case 1: // 가장 작은 국가
+              question = i18n.t("smallestArea");
+              correctAnswer = getTranslatedCountryName(sortedByArea[3], currentLocale);
+              break;
+            case 2: // 두 번째로 넓은 국가
+              question = i18n.t("secondLargestArea");
+              correctAnswer = getTranslatedCountryName(sortedByArea[1], currentLocale);
+              break;
+            case 3: // 세 번째로 넓은 국가
+              question = i18n.t("thirdLargestArea");
+              correctAnswer = getTranslatedCountryName(sortedByArea[2], currentLocale);
+              break;
+            default: // 기본값: 가장 넓은 국가
+              question = i18n.t("largestArea");
+              correctAnswer = getTranslatedCountryName(sortedByArea[0], currentLocale);
+          }
+        } else {
+          // 인구 관련 문제 생성
+          const questionType = Math.floor(Math.random() * 5); // 0-4
+
+          // 인구 순으로 정렬
+          const sortedByPopulation = [...validSelectedCountries].sort(
+            (a, b) => (b.population || 0) - (a.population || 0)
+          );
+
+          switch (questionType) {
+            case 0: // 가장 인구가 많은 국가
+              question = i18n.t("largestPopulation");
+              correctAnswer = getTranslatedCountryName(sortedByPopulation[0], currentLocale);
+              break;
+            case 1: // 가장 인구가 적은 국가
+              question = i18n.t("smallestPopulation");
+              correctAnswer = getTranslatedCountryName(sortedByPopulation[3], currentLocale);
+              break;
+            case 2: // 두 번째로 인구가 많은 국가
+              question = i18n.t("secondLargestPopulation");
+              correctAnswer = getTranslatedCountryName(sortedByPopulation[1], currentLocale);
+              break;
+            case 3: // 세 번째로 인구가 많은 국가
+              question = i18n.t("thirdLargestPopulation");
+              correctAnswer = getTranslatedCountryName(sortedByPopulation[2], currentLocale);
+              break;
+            default: // 기본값: 가장 인구가 많은 국가
+              question = i18n.t("largestPopulation");
+              correctAnswer = getTranslatedCountryName(sortedByPopulation[0], currentLocale);
+          }
+        }
+
+        quizzes.push({
+          question,
+          options: countryOptions,
+          correctAnswer,
+          dataType,
+          quizType,
+          optionDetails,
+        });
+      } else if (quizType === AreaPopulationQuizType.ORDER_SELECTION) {
+        // 순서 선택 퀴즈 생성
+        let question = "";
+        let correctAnswers: string[] = [];
+
+        if (dataType === AreaPopulationDataType.AREA) {
+          // 면적 순서 문제
+          question = i18n.t("orderByArea");
+
+          // 면적 기준으로 정렬된 국가 이름 (내림차순)
+          correctAnswers = [...validSelectedCountries]
+            .sort((a, b) => (b.area || 0) - (a.area || 0))
+            .map((country) => getTranslatedCountryName(country, currentLocale));
+        } else {
+          // 인구 순서 문제
+          question = i18n.t("orderByPopulation");
+
+          // 인구 기준으로 정렬된 국가 이름 (내림차순)
+          correctAnswers = [...validSelectedCountries]
+            .sort((a, b) => (b.population || 0) - (a.population || 0))
+            .map((country) => getTranslatedCountryName(country, currentLocale));
+        }
+
+        quizzes.push({
+          question,
+          options: countryOptions,
+          correctAnswer: correctAnswers,
+          dataType,
+          quizType,
+          optionDetails,
+        });
+      }
+    }
+
+    return quizzes;
+  } catch (error) {
+    console.error("면적/인구 퀴즈 생성 오류:", error);
     throw error;
   }
 };
